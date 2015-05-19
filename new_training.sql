@@ -38,7 +38,7 @@ CREATE TABLE `course` (
 -- dump ตาราง `course`
 -- 
 
-INSERT INTO `course` VALUES (1, 'O-NET 1 (ช่วงชั้นที่ 3)', 30, 3, 3000, 200, 'O-NET 1 (ช่วงชั้นที่ 3)', '2014-10-25', '2014-12-21', '2014-10-18', '2014-10-19');
+INSERT INTO `course` VALUES (1, 'O-NET 1 (ช่วงชั้นที่ 3)', 30, 5, 2800, 200, 'O-NET 1 (ช่วงชั้นที่ 3)', '2014-10-25', '2014-12-21', '2014-10-18', '2014-10-19');
 INSERT INTO `course` VALUES (2, 'มัธยมศึกษาปีที่ 1', 30, 1, 3000, 250, 'มัธยมศึกษาปีที่ 1', '2014-10-25', '2015-01-31', '2014-10-18', '2014-10-19');
 INSERT INTO `course` VALUES (3, 'มัธยมศึกษาปีที่ 2', 30, 2, 3000, 20, 'มัธยมศึกษาปีที่ 2', '2014-10-19', '2014-12-28', '2014-10-25', '2014-10-26');
 
@@ -115,12 +115,14 @@ CREATE TABLE `jobs` (
   `telephone` varchar(20) NOT NULL,
   `subj` varchar(50) NOT NULL,
   PRIMARY KEY  (`jobs_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- 
 -- dump ตาราง `jobs`
 -- 
 
+INSERT INTO `jobs` VALUES (1, 'ipipipipipip', '1111', 'ipipipipipipipip', 'ipipipipipipipipipi', 'ipipipi', '1', '1', 'ไทย', '0000-00-00', '', 'ipipipipipipipipipipipipiipipipipipipipipipipipipiipipipipipipipipipipipipiipipipipipipipipipipipipi                    \r\n                  ', 'pkscm_pin@hotmail.com', '0894124218', 'physics');
+INSERT INTO `jobs` VALUES (2, 'ipipipipipip', '1111', 'ipipipipipipipip', 'ipipipipipipipipipi', 'ipipipi', '1', '1', 'ไทย', '0000-00-00', '', 'ipipipipipipipipipipipipiipipipipipipipipipipipipiipipipipipipipipipipipipiipipipipipipipipipipipipi                    \r\n                  ', 'pkscm_pin@hotmail.com', '0894124218', 'physics');
 
 -- --------------------------------------------------------
 
@@ -138,15 +140,12 @@ CREATE TABLE `learn` (
   `time_reg` varchar(50) NOT NULL,
   `approve` int(11) NOT NULL,
   PRIMARY KEY  (`autoid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- 
 -- dump ตาราง `learn`
 -- 
 
-INSERT INTO `learn` VALUES (1, 1, 2, 1, 1, '2014-10-22', '11:34:22 AM', 1);
-INSERT INTO `learn` VALUES (2, 2, 4, 1, 1, '2014-10-22', '11:34:22 AM', 1);
-INSERT INTO `learn` VALUES (3, 3, 5, 1, 1, '2014-10-22', '11:34:22 AM', 1);
 INSERT INTO `learn` VALUES (4, 4, 7, 7, 2, '2014-10-22', '02:21:34 PM', 1);
 INSERT INTO `learn` VALUES (5, 5, 10, 7, 2, '2014-10-22', '02:21:34 PM', 1);
 INSERT INTO `learn` VALUES (6, 6, 12, 7, 2, '2014-10-22', '02:21:34 PM', 1);
@@ -171,6 +170,7 @@ CREATE TABLE `member` (
   `name` varchar(30) NOT NULL,
   `surname` varchar(30) NOT NULL,
   `nickname` varchar(30) NOT NULL,
+  `fileupload` varchar(200) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telephone` varchar(20) NOT NULL,
   `gender` varchar(5) NOT NULL,
@@ -179,18 +179,19 @@ CREATE TABLE `member` (
   `parents_name` varchar(40) NOT NULL,
   `parents_tel` varchar(20) NOT NULL,
   PRIMARY KEY  (`member_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
 
 -- 
 -- dump ตาราง `member`
 -- 
 
-INSERT INTO `member` VALUES (1, 'ipiinto', '1234', 'คมสัน', 'เชาวน์มาศ', 'ปิ่น', 'pkscm_pin@hotmail.com', '66863262894', '0', '534 หมู่ที่ 2  ต.เด่นชัย  อ.เด่นชัย  จ.แพร่  54110', '2531-08-05', 'มยุรี เชาวน์มาศ', '081          ');
-INSERT INTO `member` VALUES (7, 'pkscm', '1234', 'Komson', 'Chaovamas', 'Pin', 'pkscm_pin@hotmail.com', '66863262894', 'ชาย', '534 Denchai Denchai Phrae 54110', '2531-08-05', '', '');
-INSERT INTO `member` VALUES (9, 'siripak', '1234', 'สิริภาคย์', 'นพมาก', 'กอหญ้า', 'korkak@kak.com', '0831341249', 'หญิง', 'อุตรดิตถ์', '2542-09-27', 'แม่', '0831324941');
-INSERT INTO `member` VALUES (11, 'jackky', '1234', 'พิเชษฐ์', 'บัวบังขัง', 'แจ็ค', 'jackky@dum.com', '0831238210', 'ชาย', 'อุตรดิตถ์', '2540-07-18', 'แต้ว', '0832314149');
-INSERT INTO `member` VALUES (13, 'arsenalong', '1234', 'ณัฐกุล', 'วงษ์เจริญ', 'อ๋อง', 'arsenalong@hotmail.com', '0838210312', 'ชาย', 'อุตรดิตถ์', '2539-09-21', 'แม่อ๋อง', '0831324149');
-INSERT INTO `member` VALUES (15, 'kasem', '1234', 'kasem', 'sanprasit', 'komin', 'kasem@gmail.com', '0974291339', '1', 'อุตรดิตถ์', '2006-03-22', 'พ่อ', '0971339429');
+INSERT INTO `member` VALUES (53, 'pppp', '1111', 'pppp', 'pppp', 'pppp', '2015-03-30-Komson.jpg', 'poo@gmail.com', '0863262892', 'ชาย', 'pppp', '0000-00-00', 'mmmmmm', '0843138412');
+INSERT INTO `member` VALUES (7, 'pkscm', '1234', 'Komson', 'Chaovamas', 'Pin', '', 'pkscm_pin@hotmail.com', '66863262894', 'ชาย', '534 Denchai Denchai Phrae 54110', '2531-08-05', '', '');
+INSERT INTO `member` VALUES (9, 'siripak', '1234', 'สิริภาคย์', 'นพมาก', 'กอหญ้า', '', 'korkak@kak.com', '0831341249', 'หญิง', 'อุตรดิตถ์', '2542-09-27', 'แม่', '0831324941');
+INSERT INTO `member` VALUES (11, 'jackky', '1234', 'พิเชษฐ์', 'บัวบังขัง', 'แจ็ค', '', 'jackky@dum.com', '0831238210', 'ชาย', 'อุตรดิตถ์', '2540-07-18', 'แต้ว', '0832314149');
+INSERT INTO `member` VALUES (13, 'arsenalong', '1234', 'ณัฐกุล', 'วงษ์เจริญ', 'อ๋อง', '', 'arsenalong@hotmail.com', '0838210312', 'ชาย', 'อุตรดิตถ์', '2539-09-21', 'แม่อ๋อง', '0831324149');
+INSERT INTO `member` VALUES (15, 'kasem', '1234', 'kasem', 'sanprasit', 'komin', '', 'kasem@gmail.com', '0974291339', '1', 'อุตรดิตถ์', '2006-03-22', 'พ่อ', '0971339429');
+INSERT INTO `member` VALUES (52, 'Komson', '1111', 'Komson', 'Chaovamas', 'pin', '2015-03-20-Komson.jpg', 'pkscm.pin@gmail.com', '0863262894', 'ชาย', 'Denchai', '0000-00-00', 'mama papa', '0858676273');
 
 -- --------------------------------------------------------
 
@@ -206,16 +207,14 @@ CREATE TABLE `news` (
   `banner` varchar(200) NOT NULL,
   `news_date` date NOT NULL,
   PRIMARY KEY  (`news_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- 
 -- dump ตาราง `news`
 -- 
 
-INSERT INTO `news` VALUES (7, 'ทั่วไป (ไม่มีแบนเนอร์)', '2', 'ทั่วไป (ไม่มีแบนเนอร์)', '', '2014-08-20');
-INSERT INTO `news` VALUES (6, 'ข่่าวทั่วไป (แบนเนอร์)', '1', 'ข่่าวทั่วไป (แบนเนอร์)', '2014-08-20-Test1.jpg', '2014-08-20');
-INSERT INTO `news` VALUES (5, 'ข่าวประชาสัมพันธ์หลักสูตร', '0', 'ข่าวประชาสัมพันธ์หลักสูตร', '2014-08-20-slide-2.jpg', '2014-08-20');
-INSERT INTO `news` VALUES (8, 'ข่่าวภายนอก', 'http://www.uru.ac.th/', 'ข่่าวภายนอก', '2014-08-20-20140728-095226.jpg', '2014-08-20');
+INSERT INTO `news` VALUES (1, 'ข่าวประชาสัมพันธ์หลักสูตร', '0', 'ข่าวประชาสัมพันธ์หลักสูตร', '2015-03-31-slide-2.jpg', '2015-03-31');
+INSERT INTO `news` VALUES (2, 'ทั่วไป (แบนเนอร์)', '1', 'ทั่วไป (แบนเนอร์)', '2015-03-31-2014-08-20-Test1.jpg', '2015-03-31');
 
 -- --------------------------------------------------------
 
@@ -326,9 +325,9 @@ CREATE TABLE `subject` (
 -- dump ตาราง `subject`
 -- 
 
-INSERT INTO `subject` VALUES (1, 'คณิตศาสตร์ (ม.ต้น) 1', 1000, '10', 'คณิตศาสตร์ (ม.ต้น) 1');
-INSERT INTO `subject` VALUES (2, 'วิทยาศาสตร์ (ม.ต้น) 1', 1000, '10', 'วิทยาศาสตร์ (ม.ต้น) 1');
-INSERT INTO `subject` VALUES (3, 'ภาษาอังกฤษ (ม.ต้น) 1', 1000, '10', 'ภาษาอังกฤษ (ม.ต้น) 1');
+INSERT INTO `subject` VALUES (1, 'คณิตศาสตร์ (ม.ต้น) 1', 1001, '10', 'คณิตศาสตร์ (ม.ต้น) 1');
+INSERT INTO `subject` VALUES (2, 'วิทยาศาสตร์ (ม.ต้น) 1', 1002, '10', 'วิทยาศาสตร์ (ม.ต้น) 1');
+INSERT INTO `subject` VALUES (3, 'ภาษาอังกฤษ (ม.ต้น) 1', 1003, '10', 'ภาษาอังกฤษ (ม.ต้น) 1');
 INSERT INTO `subject` VALUES (4, 'คณิตศาสตร์ 1', 1000, '30', 'คณิตศาสตร์ 1');
 INSERT INTO `subject` VALUES (5, 'ภาษาอังกฤษ 1', 1000, '30', 'ภาษาอังกฤษ 1');
 INSERT INTO `subject` VALUES (6, 'วิทยาศาสตร์ 1', 1000, '30', 'วิทยาศาสตร์ 1');
@@ -383,7 +382,6 @@ INSERT INTO `teacher` VALUES (3, 'manatsinee', '1234', 'มนัสศินี
 INSERT INTO `teacher` VALUES (1, 'krupam', '4321', 'วิชญา', 'เมฆอากาศ', 'ครูแป้ม', 'pamjung@gmail.com', '0999999999', '0', '3', '2556-01-01');
 INSERT INTO `teacher` VALUES (2, 'porpar3d', '1234', 'ภมร', 'ดาวแดน', 'ครูปอ', 'porpar3d@hotmail.com', '', 'หญิง', '400  หมู่ที่ 2  ต.เด่นชัย  อ.เด่นชัย  จ.แพร่  54110', '2528-09-07');
 INSERT INTO `teacher` VALUES (4, 'i_maija', '1234', 'วิทมณ', 'เชาวน์มาศ', 'ครูใหม่', 'i_maija@hotmail.com', '0863452030', 'ชาย', '534 หมู่ที่ 2  ต.เด่นชัย  อ.เด่นชัย  จ.แพร่  54110', '2556-04-25');
-INSERT INTO `teacher` VALUES (5, 'masakao', '1234', 'พรนิภา', 'นุโนชา', 'มิ๊ก', 'Masakao@hotmail.com', '0888888888', 'หญิง', '', '2557-01-01');
 
 -- --------------------------------------------------------
 
@@ -406,6 +404,6 @@ CREATE TABLE `webboard` (
 -- dump ตาราง `webboard`
 -- 
 
-INSERT INTO `webboard` VALUES (00001, '2013-12-24 00:34:33', 'ทดสอบจ่ะ', 'ทดสอบนะจ๊ะ', 'admin', 104, 7);
+INSERT INTO `webboard` VALUES (00001, '2013-12-24 00:34:33', 'ทดสอบจ่ะ', 'ทดสอบนะจ๊ะ', 'admin', 105, 7);
 INSERT INTO `webboard` VALUES (00002, '2013-12-25 00:05:30', 'ทดสอบโพสต์2', 'ลายละเอียด 2', 'ipiinto', 10, 0);
 INSERT INTO `webboard` VALUES (00003, '2013-12-25 01:21:54', 'ขอตั้งบ้าง', 'นะนะนะจ๊ะ', 'krupam', 13, 2);

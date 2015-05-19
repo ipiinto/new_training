@@ -1,4 +1,4 @@
-<?
+<?php
 	session_start();
 	include('config/config.php');
 	mysql_connect($host,$hostuser,$hostpass);
@@ -38,12 +38,12 @@
 	  }
 	}
 	 
-	if (window.addEventListener) {
-	  window.addEventListener("load", prepare, false);
-	} else if (window.attachEvent) {
-	  window.attachEvent("onload", prepare)
-	} else if (document.getElementById) {
-	  window.onload = prepare;
+	if(window.addEventListener){
+		window.addEventListener("load", prepare, false);
+	}else if(window.attachEvent){
+		window.attachEvent("onload", prepare)
+	}else if(document.getElementById){
+		window.onload = prepare;
 	}
 	 
 //-->
