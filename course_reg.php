@@ -111,7 +111,7 @@
 		              							<td width="85" rowspan="2" align="right" valign="middle">
 		              								<!-- <input type="checkbox" name="sub_id[<? echo $j; ?>]" id="sub_id[<? echo $j; ?>]" value="<? echo $row[0] ?>" onClick="priza(this,<?=$row[2];?>");" /> -->
 		              								<?php
-		              									echo "<input type='checkbox' name='sub_id$j' id='sub_id$j' value='$row[0]' onClick='priza(this,$row[2])' >";
+		              									echo "<input type='checkbox' name='sub_id[$j]' id='sub_id[$j]' value='$row[0]' onClick='priza(this,$row[2])' >";
 		              								?>
 		              							</td>
 		              							<td width="87" align="right"><strong>ชื่อวิชา :</strong></td>
@@ -158,6 +158,7 @@
 												<td colspan="2" align="right"></td>
 												<td><input type="submit" name="button" id="button" value="ลงทะเบียนเรียน" class="btn btn-primary" />
 									                <input name="cos_id" type="hidden" id="cos_id" value="<? echo $cos_id ?>" />
+									                <input name="count_subjects" type="hidden" id="count_subjects" value="<? echo $j ?>" />
 									                <input name="end" type="hidden" id="end" value="<? echo $i ?>" />
 												</td>
 								            </tr>
@@ -257,10 +258,5 @@
 		}
 		return $ut;	
 	}
-	
-	
-	mysql_close();
-	
-	
-	
+	mysql_close();	
 ?>
