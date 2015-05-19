@@ -5,7 +5,7 @@
 	mysql_query("SET NAMES UTF8");
 
 		$st_login=0;
-        $sql="select * from office where username='$username' and pass='$pass'";
+        	$sql="select * from office where username='$username' and pass='$pass'";
 		$result=mysql_db_query($database,$sql);
 		$nRow=mysql_num_rows($result);
 		if($nRow != 0){
