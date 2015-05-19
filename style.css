@@ -1,0 +1,22 @@
+@charset "windows-1251";
+a{text-decoration:none; color: #006699;}
+a:hover{text-decoration:underline; color: #666666;}
+.tab:hover {background-color: #5f7ac3; text-decoration: none; }
+.sk:hover {background-color: #d7e5fe; text-decoration: none; }
+body{margin: 0px; padding: 0px; background: #f8f8f8}
+div,td{font-family: Tahoma; font-size: 14px; color: #28333A;}
+.t11{font-family: Tahoma; font-size: 11px; color: #28333A;}
+form{margin: 0px}
+.t10{font-family: Tahoma; font-size: 10px; color: #28333A;}
+.t10r{font-family: Tahoma; font-size: 10px; color: #FF0000;}
+.blu{font-family: Tahoma; color: #0000FF;}
+.wh{font-family: Tahoma; color: #FFFFFF;}
+
+.inp1{height: 19px;  font-family: Arial; font-size: 10px; color: #28333A; border: #D4D4D4 1px solid;}
+.inp2{height: 20px; width:auto;  font-family: Arial; font-size: 10px; color: #FFFFFF; border: #D4D4D4 1px solid; background-color:#FF3300;}
+
+.bor{border-style:dotted;}
+.scrollit {overflow:scroll;height:306px;}
+.scrollits {overflow:scroll;height:306px;width:250px;}
+
+

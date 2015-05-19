@@ -1,0 +1,25 @@
+<script type="text/javascript">
+    var total = 0;
+
+    function test(item,value){
+        if(item.checked){
+           total+= value;
+        }else{
+           total-= value;
+        }
+        //alert(total);
+        document.getElementById('Totalcost').innerHTML = total + " บาท";
+    }
+</script>
+    </head>
+    <body>
+
+    <div id="container">
+        <input type="checkbox" name="cost" value="10" onClick="test(this,10);"  />10<br />
+        <input type="checkbox" name="cost" value="20" onClick="test(this,20);" />20 <br />
+        <input type="checkbox" name="cost" value="40" onClick="test(this,40);" />40 <br />
+        <input type="checkbox" name="cost" value="-10" onClick="test(this,-10);" />-10<br />
+    </div>
+    รวม : <span id="Totalcost"> </span>
+    </body>
+    </html>
