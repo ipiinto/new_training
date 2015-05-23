@@ -1,10 +1,6 @@
 <?php
 	session_start();
-	
-	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
+	include('../config/config.php');	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
@@ -89,8 +85,8 @@ if (window.addEventListener) {
 				$j=0;
 				$sql="select subject.sub_id , subject.sub_name from subject , course_item ";
 				$sql=$sql . " where subject.sub_id=course_item.sub_id and course_item.cos_id=$cos_id order by sub_id ";
-				$result=mysql_query($sql);
-				while($row=mysql_fetch_array($result)){
+				$result=mysqli_query($dbcon, $sql);
+				while($row=mysqli_fetch_array($result)){
 				//print_r($row);
 				echo"<br/>";
 			?>
@@ -110,8 +106,8 @@ if (window.addEventListener) {
                 <?php
 					$sql_sec="select sec_id,sec_name,day,since,until from section where sub_id=$row[0] and cos_id=$cos_id ";
 					$sql_sec=$sql_sec . "order by sec_id";
-					$result_sec=mysql_query($sql_sec);
-					while($row_sec=mysql_fetch_array($result_sec)){
+					$result_sec=mysqli_query($dbcon, $sql_sec);
+					while($row_sec=mysqli_fetch_array($result_sec)){
 						$strDay=getDay($row_sec[2]);
 						$strSince=getSince($row_sec[3]);
 						$strUntil=getUntil($row_sec[4]);
@@ -229,5 +225,5 @@ if (window.addEventListener) {
 		return $ut;	
 	}
 
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

@@ -1,10 +1,6 @@
-<?
+<?php
   session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
@@ -14,17 +10,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
 <table width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <?php include "../student/header.php";?>
   </tr>
   <tr>
-    <td height="46" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -33,7 +28,7 @@
     <td height="300" align="center">
     <?php
       $_SESSION["stu_login"]="";
-      echo "<script language=\"javascript\">window.location.href = '../index1.php'</script>";
+      echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
     ?>
     </td>
   </tr>
@@ -44,6 +39,6 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
   session_destroy();
 ?>

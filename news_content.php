@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -37,9 +36,9 @@
 	    </tr>
 		  		<?php
 				  	$sql="select * from news where news_id=$news_id ";
-					$result=mysql_db_query($database,$sql);
-					//$nRow=mysql_num_rows($result);
-					while($row=mysql_fetch_array($result)){
+					$result=mysqli_query($dbcon,$sql);
+					//$nRow=mysqli_num_rows($result);
+					while($row=mysqli_fetch_array($result)){
 				?>
 		  <tr>
 		    <td width="198" bgcolor="#FFFFFF"><b>หัวข้อข่าวประชาสัมพันธ์ :</b></td>
@@ -80,5 +79,5 @@
 </html>
 <?php
 	session_destroy();
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

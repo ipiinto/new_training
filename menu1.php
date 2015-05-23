@@ -1,4 +1,4 @@
-<?
+<?php
 	if($_SESSION['state']=='นักเรียน'){
 ?>	
 	<table width='100%' border='0' cellspacing='2' cellpadding='2'>
@@ -10,7 +10,7 @@
 			<td width="628" align="center" valign="middle">&nbsp;</td>
   		</tr>
 	</table>
-<?	
+<?php	
 	}elseif($_SESSION['state']=='อาจารย์'){
 ?>
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -23,7 +23,7 @@
   		</tr>
 	</table>
 
-<?
+<?php
 	}elseif($_SESSION['state']=='ผู้ดูแลระบบ'){
 ?>
 
@@ -40,6 +40,6 @@
 	</table>
 
 
-<?
+<?php
 	}
 ?>

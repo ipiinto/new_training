@@ -57,9 +57,9 @@ $html='
 $s2 = "select * from serviceusers,paydrug,drug
 where serviceusers.serviceusers_id = paydrug.serviceusers_id 
 and paydrug.drug_id = drug.drug_id and paydrug.paydrug_date between '".date_format_sql($strBegin)."' and '".date_format_sql($strEnd)."'";
-	$result_show=mysql_query($s2)or die(mysql_error());
-	$totalp = mysql_num_rows($result_show);
-	while($row_show=mysql_fetch_array($result_show)) 
+	$result_show=mysqli_query($s2)or die(mysql_error());
+	$totalp = mysqli_num_rows($result_show);
+	while($row_show=mysqli_fetch_array($result_show)) 
 	{
 		$num++;
 $html.='

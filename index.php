@@ -2,8 +2,6 @@
     session_start();
 	$_SESSION['login']="";
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -95,12 +93,12 @@
 </table>
 
         
-<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| --->        
+
         </td>
   </tr>
 </table>
 </body>
 </html>
-<?
-	mysql_close();
+<?php
+	mysqli_close($dbcon);
 ?>

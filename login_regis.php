@@ -1,16 +1,15 @@
-<?
+<?php
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	//print_r($_SESSION);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><? echo $ribon; ?></title>
+    <title><?php echo $ribon; ?></title>
     <link href="style.css" rel="stylesheet" type="text/css">
     <link href="bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
@@ -48,7 +47,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2" height="46" valign="middle" background="images/bg_menu.png"><? include('menu.php') ?></td>
+        <td colspan="2" height="46" valign="middle" background="images/bg_menu.png"><?php include('menu.php') ?></td>
       </tr>
       <tr>
       	<td colspan="2">&nbsp;</td>
@@ -137,6 +136,6 @@
     </table>
   </body>
 </html>
-<?	
-	mysql_close();
+<?php	
+	mysqli_close($dbcon);
 ?>

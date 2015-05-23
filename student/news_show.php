@@ -1,9 +1,9 @@
 <table width="100%" height="306px" border="0" align="right" cellpadding="2" cellspacing="2">
 <?php
 	$sql="select * from news order by news_id DESC";
-	$result=mysql_query($sql);
-	$nRow=mysql_num_rows($result);
-	while($row=mysql_fetch_array($result)){
+	$result=mysqli_query($dbcon, $sql);
+	$nRow=mysqli_num_rows($result);
+	while($row=mysqli_fetch_array($result)){
 		if($row['news_type']=="0"){
       $link="list_subject.php"; 
     }elseif($row['news_type']=="1") {

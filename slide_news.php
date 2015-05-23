@@ -1,5 +1,7 @@
 <?php
-   $sql=mysql_db_query($database,"select * from news  where banner !='' order by news_id ") or die(mysql_error());
+    $sql="select * from news  where banner !='' order by news_id";
+    $result=mysqli_query($dbcon,$sql);
+    $nRow=mysqli_num_rows($result);
 ?>
 
     <nav class="container">
@@ -26,7 +28,7 @@
               </div>
             </div>
           <?php
-            while($row=mysql_fetch_array($sql)){
+            while($row=mysqli_fetch_array($result)){
               if($row['news_type']=="0"){
                 $link="/new_training/list_course.php";
               }elseif($row['news_type']=="1") {

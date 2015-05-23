@@ -1,8 +1,7 @@
 <?php 
 	session_start();
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,8 +45,8 @@
 		<?php
 			}else{
 	            $sql="select * from member where username='".$_SESSION['login']."'";
-	            $result=mysql_db_query($database,$sql);
-	            $rows=mysql_fetch_array($result);
+	            $result=mysqli_query($dbcon,$sql);
+	            $rows=mysqli_fetch_array($result);
 	            echo "<font color='#FFFFFF'>ยินดีต้อนรับคุณ </font><a href='edit_profile.php'><font color='#FFFFFF'>$rows[3]&nbsp;&nbsp;$rows[4]</a>&nbsp;&nbsp;(".$_SESSION['state'].")</font>";
 	            echo "<br>[<a href='change_pwd.php'><font color='#FFFFFF'>เปลี่ยนรหัสผ่าน</font></a>]";
 	            echo "[<a href='logout.php'><font color='#FFFFFF'>ออกจากระบบ</font></a>]";  

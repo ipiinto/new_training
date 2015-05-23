@@ -1,10 +1,6 @@
 <?php
   session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
@@ -46,8 +42,8 @@
             <table width="100%" border="0" cellspacing="2" cellpadding="2">
             <?php
                 $sql="select * from course where num_sec<cos_max order by cos_name ";
-                $result=mysql_db_query($database,$sql);
-                while($row=mysql_fetch_array($result)){
+                $result=mysqli_query($dbcon,$sql);
+                while($row=mysqli_fetch_array($result)){
             ?>
               <tr>
                 <td width="80"><img src="../images/course.png" width="80" height="81" /></td>
@@ -69,10 +65,10 @@
                     <td>
             <?php
                         $sql="select approve from learn where cos_id=$row[0] and member_id=".$_SESSION["id"];
-                        $result_learn=mysql_db_query($database,$sql);
-                        $nRow=mysql_num_rows($result_learn);
+                        $result_learn=mysqli_query($dbcon,$sql);
+                        $nRow=mysqli_num_rows($result_learn);
                         if($nRow!=0){
-                            $row_learn=mysql_fetch_array($result_learn);
+                            $row_learn=mysqli_fetch_array($result_learn);
                             if($row_learn[0]==0){
                                 echo "<font color='red'>รออนุมัติ</a>";
                             }else{
@@ -113,35 +109,35 @@
 
 
         <!-- <table width="100%" border="0" cellspacing="2" cellpadding="2">
-          <?
+          <?php
               $sql="select * from subject order by sub_name ";
-              $result=mysql_db_query($database,$sql);
-              while($row=mysql_fetch_array($result)){
+              $result=mysqli_query($dbcon,$sql);
+              while($row=mysqli_fetch_array($result)){
             ?>
           <tr>
             <td width="80"><img src="../images/subject.jpg" width="80" height="81" /></td>
             <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
               <tr>
                 <td width="100" align="right"><strong>ชื่อรานวิชา :</strong></td>
-                <td><? echo $row["sub_name"] ?></td>
+                <td><?php echo $row["sub_name"] ?></td>
               </tr>
               <tr>
                 <td align="right"><strong>เวลาเรียน :</strong></td>
-                <td><? echo $row["time_sub"] ?> ชั่วโมง</td>
+                <td><?php echo $row["time_sub"] ?> ชั่วโมง</td>
               </tr>
               <tr>
                 <td align="right"><strong>ราคา :</strong></td>
-                <td><? echo $row["price"] ?> บาท</td>
+                <td><?php echo $row["price"] ?> บาท</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td>
-                <?
+                <?php
                   $sql="select approve from learn where sub_id=$row[0] and cos_id=0 and member_id=". $_SESSION["id"];
-                  $result_learn=mysql_db_query($database,$sql);
-                  $nRow=mysql_num_rows($result_learn);
+                  $result_learn=mysqli_query($dbcon,$sql);
+                  $nRow=mysqli_num_rows($result_learn);
                   if($nRow!=0){
-                    $row_learn=mysql_fetch_array($result_learn);
+                    $row_learn=mysqli_fetch_array($result_learn);
                     if($row_learn[0]==0){
                       echo "<font color='red'>รออนุมัติ</a>";
                     }else{
@@ -154,14 +150,14 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="2"><? echo $row["detail"] ?></td>
+                <td colspan="2"><?php echo $row["detail"] ?></td>
               </tr>
             </table></td>
           </tr>
           <tr>
             <td colspan="2"><hr /></td>
           </tr>
-          <?
+          <?php
               }
               ?>
         </table> -->
@@ -183,5 +179,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

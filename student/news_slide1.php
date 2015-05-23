@@ -1,5 +1,5 @@
 <?php
-    $sql=mysql_db_query($database,"select * from news  where banner !='' order by news_id ") or die(mysql_error());
+    $sql=mysqli_query($dbcon,"select * from news  where banner !='' order by news_id ") or die(mysql_error());
 ?>
 <!doctype html>
 <html>
@@ -17,7 +17,7 @@
             <div id="slider">
 
                 <?php
-                    while($row=mysql_fetch_array($sql)){
+                    while($row=mysqli_fetch_array($sql)){
                         if($row['news_type']=="0"){
                             $link="../list_course.php";
                         }elseif($row['news_type']=="1") {

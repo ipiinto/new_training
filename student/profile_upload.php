@@ -1,11 +1,6 @@
 <?php
-
   session_start();
-  
   include('../config/config.php');
-  mysql_connect($host,$hostuser,$hostpass);
-  mysql_query("SET NAMES UTF8");
-  
   if($_SESSION["login"]==""){
     echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
     exit();
@@ -13,7 +8,7 @@
 ?>
 <html lang="en">
   <meta charset="UTF-8">
-  <title><?php echo $ribbon;?></title>
+  <title><?php echo $ribon;?></title>
    <link rel="stylesheet" type="text/css" href="../bootstrap-3.2.0-dist/css/bootstrap.css">
     <script type="text/javascript" src="../style.css"></script>
     <script src="../jquery/jquery-2.1.3.js"></script>
@@ -87,8 +82,8 @@
           <ul class="nav navbar-right">
           	<?php
               $sql="select * from member where username='".$_SESSION['login']."'";
-              $result=mysql_db_query($database,$sql);
-              $rows=mysql_fetch_array($result);
+              $result=mysqli_query($dbcon,$sql);
+              $rows=mysqli_fetch_array($result);
             ?>
             <li class="dropdown" style="margin-top:1px" style="margin-right:15px">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">

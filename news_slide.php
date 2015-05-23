@@ -1,9 +1,6 @@
 <?php
-    session_start();
-    include('config/config.php');
-    mysql_connect($host,$hostuser,$hostpass);
-    mysql_query("SET NAMES UTF8");
-    $sql=mysql_db_query($database,"select * from news  where banner !='' order by news_id ") or die(mysql_error());
+    $sql = "select * from news  where banner !='' order by news_id ";
+    $run = mysqli_query($dbcon, $sql);
     //echo $sql;
 ?>
 <!doctype html>
@@ -36,7 +33,7 @@
             <div id="slider">
 
                 <?php
-                    while($row=mysql_fetch_array($sql)){
+                    while($row=mysqli_fetch_array($run)){
                         if($row['news_type']=="0"){
                             $link="/new_training/list_course.php";
                         }elseif($row['news_type']=="1") {

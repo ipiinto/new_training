@@ -1,10 +1,6 @@
-<?
+<?php
   session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
@@ -64,5 +60,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

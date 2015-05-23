@@ -1,30 +1,28 @@
-<?
+<?php
 	session_start();
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
 	$member_id = $_SESSION['id'];
 	$sql_select_course_in_member = "SELECT DISTINCT cos_id FROM learn WHERE member_id = $member_id";
 	//เดึงหลักสูตรที่สมาชิกเรียนออกมาก่อน
-	$results_4 = mysql_db_query($database,$sql_select_course_in_member);
-	while($rows = mysql_fetch_array($results_4))
+	$results_4 = mysqli_query($dbcon,$sql_select_course_in_member);
+	while($rows = mysqli_fetch_array($results_4))
 	{
 		$cos_id = $rows['cos_id'];
 		$sql_count_subject_in_course = "SELECT COUNT( sub_id ) 
 										FROM  learn 
 										WHERE cos_id = $cos_id AND member_id = $member_id";
 										
-		$results_5 = mysql_db_query($database,$sql_count_subject_in_course);
+		$results_5 = mysqli_query($dbcon,$sql_count_subject_in_course);
 		echo "<font color='#e31e1e'>";
-		$row = mysql_fetch_array($results_5);
+		$row = mysqli_fetch_array($results_5);
 		$var_1 = $row[0];
 		echo "</font>";
 		$sql_select_course_in_course_item = "SELECT COUNT( sub_id ) 
 												FROM course_item
 												WHERE cos_id = $cos_id";
-		$results_5 = mysql_db_query($database,$sql_select_course_in_course_item);
+		$results_5 = mysqli_query($dbcon,$sql_select_course_in_course_item);
 		echo "<font color='#7B52E3'>";
-		$row = mysql_fetch_array($results_5);
+		$row = mysqli_fetch_array($results_5);
 		$var_2 = $row[0];
 		echo "</font>";
 		$i = 0;
@@ -32,15 +30,15 @@
 			# คิดแบบหลักสูตร
 			//echo $var_1," ",$var_2,"หลักสูตร";
 			$sql="SELECT price,discount from course where cos_id=$cos_id";
-			$result=mysql_db_query($database,$sql);
-			$rowss=mysql_fetch_array($result);
+			$result=mysqli_query($dbcon,$sql);
+			$rowss=mysqli_fetch_array($result);
 			$totals=$rowss[0]-$rowss[1];
 		} else {
 			# คิดแบบรายวิชา
 			//echo $var_1," ",$var_2,"รายวิชา";
 			$sql="SELECT SUM(subject.price) AS Total FROM subject,learn where subject.sub_id=learn.sub_id and learn.member_id=".$_SESSION['id'];
-            $result=mysql_db_query($database,$sql) or die($sql);
-			$rws=mysql_fetch_array($result);
+            $result=mysqli_query($dbcon,$sql) or die($sql);
+			$rws=mysqli_fetch_array($result);
 			
 		}
 	}
@@ -65,10 +63,10 @@
 	<tr>
 		<td><img src="../images/bill_header1.jpg" width="100%" height="100px"></td>
 	</tr>
-<?
+<?php
 	$sql="select name,surname from member where member_id=".$_SESSION['id'];
-	$results=mysql_db_query($database,$sql);
-	$rows=mysql_fetch_array($results);
+	$results=mysqli_query($dbcon,$sql);
+	$rows=mysqli_fetch_array($results);
 ?>
 
 	<br/>
@@ -86,7 +84,7 @@
 					<td><strong>จำนวนเงิน(บาท)</strong></td>
 				</tr>
 
-				<?
+				<?php
 					$sql= "SELECT course.cos_name, section.sec_name,subject.sub_name,teacher.name,section.day,section.since,section.until,section.room,subject.price,course.discount,course.price AS cPrice FROM course
      						inner join course_item
           					ON course.cos_id = course_item.cos_id 
@@ -101,8 +99,8 @@
      						inner join member
           					ON member.member_id=learn.member_id
 					where learn.member_id=".$_SESSION['id'];
-					$result=mysql_db_query($database,$sql) or die($sql);
-					while($row=mysql_fetch_array($result)){
+					$result=mysqli_query($dbcon,$sql) or die($sql);
+					while($row=mysqli_fetch_array($result)){
 						$strDay=getDay($row[4]);
 						$strSince=getSince($row[5]);
 						$strUntil=getUntil($row[6]);
@@ -117,23 +115,23 @@
 		            </td>
 		             <td align="center" valign="middle"><?=$row[8];?></td>
 		        </tr>
-				<?	
+				<?php	
 					}	
 				?>
                 <tr>
                 	<td colspan="5" align="right"><strong>รวม</strong></td>
-                    <?
+                    <?php
                     	$sql="SELECT SUM(subject.price) AS TotalPrice FROM subject,learn where subject.sub_id=learn.sub_id and learn.member_id=".$_SESSION['id'];
-                    	$result=mysql_db_query($database,$sql) or die($sql);
-						$rw=mysql_fetch_array($result);
+                    	$result=mysqli_query($dbcon,$sql) or die($sql);
+						$rw=mysqli_fetch_array($result);
 					?>
                     <td><u><b><?=$rw["TotalPrice"];?> </b>&nbsp;</u>บาท</td>
                 </tr>
                 <tr>
-                	<?
+                	<?php
                     	$sql_dis="select course.discount,course.cos_id from learn,course where learn.cos_id=course.cos_id and learn.member_id=".$_SESSION['id'];
-						$results=mysql_db_query($database,$sql_dis) or die($sql_dis);
-						$roww=mysql_fetch_array($results);
+						$results=mysqli_query($dbcon,$sql_dis) or die($sql_dis);
+						$roww=mysqli_fetch_array($results);
 						//echo $sql_dis;
 					?>
                 	<td colspan="3" align="right">
@@ -147,7 +145,7 @@
                     </td>
                     <td>
                     <u>
-                    	<?
+                    	<?php
                     		$dis=$rw["TotalPrice"]-$roww[0];
                     	?>
                     	<b><?=$dis?></b>
@@ -165,14 +163,14 @@
 <div align="center"><input type="button" value="พิมพ์บัตรลงทะเบียน" onclick="printDiv('print_bill')"></div>
 <hr>
 <table>
-<?
+<?php
 	$sql="SELECT course.cos_name, subject.sub_name
 			FROM course
 			INNER JOIN course_item ON course.cos_id = course_item.cos_id
 			INNER JOIN subject ON course_item.sub_id = subject.sub_id
 			WHERE course.cos_id =$roww[1]";
-	$result=mysql_db_query($database,$sql) or die($sql);
-	while($row=mysql_fetch_array($result)){
+	$result=mysqli_query($dbcon,$sql) or die($sql);
+	while($row=mysqli_fetch_array($result)){
 ?>
 	<tr>
 		<td>
@@ -182,11 +180,11 @@
 			<?=$row[1]?>
 		</td>
 	</tr>
-<?
+<?php
 	}
 ?>
 </table>
-<?
+<?php
 	function getDay($d){
 			if($d==1){
 				$da='อา.';	
@@ -263,5 +261,5 @@
 		return $ut;	
 	}
 
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

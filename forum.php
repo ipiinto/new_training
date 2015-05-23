@@ -1,13 +1,12 @@
-<?
+<?php
 	session_start();
 	if($_SESSION["login"]=="")echo "<script language=\"javascript\">window.location.href = 'index.php'</script>";
 	include("config/config.php");
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	if($_GET["Action"] == "Save"){
 		$sql="insert into webboard (CreateDate,Question,Details,Name) VALUES ";
 		$sql=$sql."('".date("Y-m-d H:i:s")."','".$_POST["txtQuestion"]."','".$_POST["txtDetails"]."','".$_SESSION['login']."') ";
-		$result=mysql_db_query($database,$sql);
+		$result=mysqli_query($dbcon,$sql);
 	}
 	
 ?>
@@ -17,7 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -26,7 +25,7 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? if ($_SESSION['state']=='นักเรียน'){
+        <?php if ($_SESSION['state']=='นักเรียน'){
 			include "student/header.php"; 
 			} else if ($_SESSION['state']=='อาจารย์'){
 				include "teacher/header.php";
@@ -39,7 +38,7 @@
     </table><a href="../index.php"></a></td>
   </tr>
   <tr>
-    <td height="46" valign="top" background="images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" valign="top" background="images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td height="400" valign="top">
@@ -51,10 +50,10 @@
         		<td>
 					
                     
-		<?
+		<?php
         	$sql="select * from webboard";
-			$result=mysql_db_query($database,$sql);
-			$nRow=mysql_num_rows($result);
+			$result=mysqli_query($dbcon,$sql);
+			$nRow=mysqli_num_rows($result);
 			$Per_Page = 10;   // Per Page
 			$Page = $_GET["Page"];
 			if(!$_GET["Page"]){
@@ -74,7 +73,7 @@
 			}
 			
 			$sql=$sql . " order  by QuestionID LIMIT $Page_Start , $Per_Page";
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			
 		?>
 	<table width="909" border="1" align="center" cellpadding="0" cellspacing="0">
@@ -88,25 +87,25 @@
 			<th width="70" bgcolor="#52679F"> <div align="center" class="wh">ตอบกลับ</div></th>
 		</tr>
 
-        <?
-			while($row=mysql_fetch_array($result)){
+        <?php
+			while($row=mysqli_fetch_array($result)){
 
 		?>
 		<tr>
-			<td><div align="center"><? echo $row["QuestionID"];?></div></td>
-			<td><a href="reply.php?QuestionID=<? echo $row["QuestionID"];?>"><p><? echo $row["Question"];?></p></a></td>
-    		<td><? echo $row["Name"];?></td>
-    		<td><div align="center"><? echo $row["CreateDate"];?></div></td>
-    		<td align="center"><? echo $row["View"];?></td>
-    		<td align="center"><? echo $row["Reply"];?></td>
+			<td><div align="center"><?php echo $row["QuestionID"];?></div></td>
+			<td><a href="reply.php?QuestionID=<?php echo $row["QuestionID"];?>"><p><?php echo $row["Question"];?></p></a></td>
+    		<td><?php echo $row["Name"];?></td>
+    		<td><div align="center"><?php echo $row["CreateDate"];?></div></td>
+    		<td align="center"><?php echo $row["View"];?></td>
+    		<td align="center"><?php echo $row["Reply"];?></td>
   			</tr>
-		<?
+		<?php
 			}
 		?>
 	</table>
     <br>
-	Total <? $nRow; ?> Record : <? $Num_Pages; ?> Page :
-		<?
+	Total <?php $nRow; ?> Record : <?php $Num_Pages; ?> Page :
+		<?php
 			if($Prev_Page){
 				echo " <a href='$_SERVER[SCRIPT_NAME]?Page=$Prev_Page'><< Back</a> ";
 			}

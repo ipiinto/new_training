@@ -1,22 +1,17 @@
 <?php
   session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
 	$sub_id=$_GET["sub_id"];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -25,12 +20,12 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? include "../student/header.php";?>
+        <?php include "../student/header.php";?>
       </tr>
     </table>      <a href="../index.php"></a></td>
   </tr>
   <tr>
-    <td height="46" valign="top" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" valign="top" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td height="400" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -73,10 +68,10 @@
 			$sql="insert into learn(sub_id , sec_id , member_id , cos_id , day_reg , time_reg , approve ) ";
 			$sql=$sql . " values($sub_id , $sec_id , " . $_SESSION["id"] . " , 0 ";
 			$sql=$sql . " , '$day_in' , '$time_in' , 0)";
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 				
 			$sql="update section set num_sec=num_sec+1 where sec_id=$sec_id and sub_id=$sub_id ";
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			
 			echo "<script language=\"javascript\">window.location.href = 'list_subject.php'</script>";
 		?>
@@ -96,5 +91,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

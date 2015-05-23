@@ -1,10 +1,6 @@
 <?php
     session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
@@ -14,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 <link href="../bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
@@ -22,10 +18,10 @@
 <body>
 <table width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <? include "../student/header.php";?>
+    <?php include "../student/header.php";?>
   </tr>
   <tr>
-    <td height="46" background="../images/bg_menu.png"><? include('../student/menu.php') ?></td>
+    <td height="46" background="../images/bg_menu.png"><?php include('../student/menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -35,12 +31,12 @@
     <table width="95%" border="1" cellspacing="0" cellpadding="0" bordercolor="#6687f2" class="table-condensed">
        <?php
         	$sql="select name,surname from member where member_id=".$_SESSION["id"];
-			$result_s=mysql_db_query($database,$sql);
-			$row_s=mysql_fetch_array($result_s);
+			$result_s=mysqli_query($dbcon,$sql);
+			$row_s=mysqli_fetch_array($result_s);
 		?>
         
 	  <tr>
-      	<td colspan="12"  align="center" valign="middle" ><b>ตารางเรียนของ&nbsp;<? echo $row_s[0]?>&nbsp;&nbsp;<? echo $row_s[1] ?>
+      	<td colspan="12"  align="center" valign="middle" ><b>ตารางเรียนของ&nbsp;<?php echo $row_s[0]?>&nbsp;&nbsp;<?php echo $row_s[1] ?>
         <b><br /></td>
       </tr>
       <tr>
@@ -76,17 +72,18 @@
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 2 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -96,8 +93,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -116,17 +113,17 @@
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 3 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -136,8 +133,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -149,23 +146,23 @@
       </tr>
       <tr>
         <td bgcolor="#6687f2"><strong>พุธ</strong></td>
-                <?
+                <?php
 			$i=1;
 			while($i<=11){
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 4 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -175,8 +172,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -195,17 +192,17 @@
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 5 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -215,8 +212,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -235,18 +232,18 @@
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 6 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -256,8 +253,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -276,17 +273,17 @@
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 7 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -296,8 +293,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -316,17 +313,17 @@
 				$sql_1="select section.since,section.until,learn.sub_id,section.sec_name,section.room,learn.cos_id from section,learn";
 				$sql_2=$sql_1." where section.sec_id=learn.sec_id and learn.member_id = ".$_SESSION["id"];
 				$sql=$sql_2." and day = 1 and since = $i";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow == 0 ){
 					echo "<td class='bor'>&nbsp;</td>";
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$sec_name=$row[3];
 					
 					$sql="select sub_name from subject where sub_id =$row[2]";
-					$result_sub=mysql_db_query($database,$sql);
-					$row_sub=mysql_fetch_array($result_sub);
+					$result_sub=mysqli_query($dbcon,$sql);
+					$row_sub=mysqli_fetch_array($result_sub);
 					$sub_name=$row_sub[0];
 					
 										
@@ -336,8 +333,8 @@
 					echo "<td colspan='$col' align='center' class='bor' bgcolor='#e7ecfe'>$row_sub[0]<br>กลุ่มเรียน.&nbsp;$sec_name&nbsp;($row[4])";
 					if($row[5] !=0){
 						$sql="select cos_name from course where cos_id=$row[5]";
-						$result_s=mysql_db_query($database,$sql);
-						$row_s=mysql_fetch_array($result_s);
+						$result_s=mysqli_query($dbcon,$sql);
+						$row_s=mysqli_fetch_array($result_s);
 						echo "<br>หลักสูตร :&nbsp;$row_s[0]";
 					}
 					echo "</td>";
@@ -354,5 +351,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

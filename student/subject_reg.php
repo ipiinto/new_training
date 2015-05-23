@@ -3,8 +3,7 @@
 
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -17,7 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -26,12 +25,12 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? include "../student/header.php";?>
+        <?php include "../student/header.php";?>
       </tr>
     </table>      <a href="../index.php"></a></td>
   </tr>
   <tr>
-    <td height="46" valign="middle" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" valign="middle" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td height="400" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -51,24 +50,24 @@
            
             <tr>
               <td align="right"><strong>ชื่อวิชา :</strong></td>
-              <td><?
+              <td><?php
 			  	$sql="select sub_id,sub_name from subject  where sub_id=$sub_id ";
-				$result=mysql_db_query($database,$sql);
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($dbcon,$sql);
+				$row=mysqli_fetch_array($result);
 				echo $row[1];
 			   	?>
-                <input name="sub_id<? echo $i ?>" type="hidden" id="sub_id<? echo $i ?>" value="<? echo $row[1] ?>" /></td>
+                <input name="sub_id<?php echo $i ?>" type="hidden" id="sub_id<?php echo $i ?>" value="<?php echo $row[1] ?>" /></td>
             </tr>
             <tr>
               <td align="right"><strong>กลุ่มเรียน : </strong></td>
               <td>
               
-              <select name="sec_id<? echo $i ?>" id="sec_id<? echo $i ?>">
+              <select name="sec_id<?php echo $i ?>" id="sec_id<?php echo $i ?>">
               	<?php
 					$sql_sec="select sec_id,sec_name,day,since,until from section where sub_id=$row[0] and cos_id='0'";
 					$sql_sec=$sql_sec . " order by sec_id";
-					$result_sec=mysql_db_query($database,$sql_sec);
-					while($row_sec=mysql_fetch_array($result_sec)){
+					$result_sec=mysqli_query($dbcon,$sql_sec);
+					while($row_sec=mysqli_fetch_array($result_sec)){
 						$strDay=getDay($row_sec[2]);
 						$strSince=getSince($row_sec[3]);
 						$strUntil=getUntil($row_sec[4]);
@@ -86,7 +85,7 @@
              <tr>
               <td align="right">&nbsp;</td>
               <td><input type="submit" name="button" id="button" value="ลงทะเบียนเรียน" />
-                <input name="sub_id" type="hidden" id="sub_id" value="<? echo $sub_id  ?>" /></td>
+                <input name="sub_id" type="hidden" id="sub_id" value="<?php echo $sub_id  ?>" /></td>
              </tr>
           </table>
         </form></td>
@@ -181,5 +180,5 @@
 		return $ut;	
 	}
 
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

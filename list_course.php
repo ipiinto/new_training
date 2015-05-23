@@ -1,15 +1,12 @@
-<?
+<?php
 	session_start();
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-  mysql_select_db($database);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="style.css" rel="stylesheet" type="text/css">
 <link href="bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
@@ -27,7 +24,7 @@
       </td>
     </tr>
     <tr>
-      <td height="46" valign="middle" background="images/bg_menu.png"><? include('menu.php') ?></td>
+      <td height="46" valign="middle" background="images/bg_menu.png"><?php include('menu.php') ?></td>
     </tr>
     <tr>
       <td height="400" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -43,8 +40,8 @@
               <?php
                 session_destroy();
                 $sql="select * from course where num_sec<cos_max order by cos_name ";
-                $result=mysql_query($sql);
-                while($row=mysql_fetch_array($result)){
+                $result=mysqli_query($dbcon, $sql);
+                while($row=mysqli_fetch_array($result)){
                   $disc=$row[4]-$row[5];
   		        ?>
               <tr>
@@ -60,7 +57,7 @@
                           </tr>
                           <tr>
                             <td align="right"><strong>จำนวนที่รับ :</strong></td>
-                      			<td><?php echo $row["num_sec"] ?>/<? echo $row["cos_max"] ?></td>
+                      			<td><?php echo $row["num_sec"] ?>/<?php echo $row["cos_max"] ?></td>
                           </tr>
                           <tr>
                             <td align="right"><strong>ราคา :</strong></td>
@@ -77,36 +74,15 @@
                           <?php
                             $sqli="select subject.sub_id , subject.sub_name from subject , course_item ";
                             $sqli=$sqli . " where subject.sub_id=course_item.sub_id and course_item.cos_id=".$row[0]." order by sub_id ";
-                            $results=mysql_query($sqli);
-                            while($rows=mysql_fetch_array($results)){
+                            $results=mysqli_query($dbcon, $sqli);
+                            while($rows=mysqli_fetch_array($results)){
                           ?>
                           <thead>
                             <tr>
                               <th width="89" align="right" bgcolor="#eee">ชื่อวิชา :</th>
-                              <th><? echo $rows[1]; ?></th>
+                              <th><?php echo $rows[1]; ?></th>
                             </tr>
                           </thead>
-                          <!-- <tr>
-                            <td align="right"><strong>กลุ่มเรียน : </strong></td>
-                            <td>
-                                <select name="sec_id[]" id="sec_id[]">
-                              <?php
-                                $sql_sec="select sec_id,sec_name,day,since,until from section where sub_id=$rows[0] and cos_id=$row[0]";
-                                $sql_sec=$sql_sec . " order by sec_id";
-                                $result_sec=mysql_query($sql_sec);
-                                //echo $sql_sec;
-                                while($row_sec=mysql_fetch_array($result_sec)){
-                                  $strDay=getDay($row_sec[2]);
-                                  $strSince=getSince($row_sec[3]);
-                                  $strUntil=getUntil($row_sec[4]);
-                                  //echo "<option value='$row_sec[0]'>$row_sec[1] - วัน$strDay &nbsp;ตั้งแต่&nbsp;$strSince&nbsp;ถึง&nbsp;$strUntil</option>";
-                                  echo "$row_sec[1]- วัน$strDay &nbsp;ตั้งแต่&nbsp;$strSince&nbsp;ถึง&nbsp;$strUntil";
-                                  echo "</br>";
-                                }
-                              ?>
-                                              </select>
-                            </td>
-                          </tr> -->
                           <?php
                             }
                           ?>
@@ -118,7 +94,7 @@
                     
                 <!-- <tr>
                   <td align="right"><strong>ลดเหลือ :</strong></td>
-                  <td><font color="#FF0000"><? echo $disc ?></font> บาท</td>
+                  <td><font color="#FF0000"><?php echo $disc ?></font> บาท</td>
                 </tr> -->
                     <tr>
                       <td>&nbsp;</td>
@@ -134,10 +110,10 @@
 					  	<?php  
 							if($_SESSION["login"]!=""){
     						          $sql="select approve from learn where cos_id=$row[0]";
-    						          $result_learn=mysql_db_query($database,$sql);
-    						          $nRow=mysql_num_rows($result_learn);
+    						          $result_learn=mysqli_query($dbcon,$sql);
+    						          $nRow=mysqli_num_rows($result_learn);
     						          if($nRow!=0){
-                            $row_learn=mysql_fetch_array($result_learn);
+                            $row_learn=mysqli_fetch_array($result_learn);
                             if($row_learn[0]==0){
     								          echo "<font color='red'>รออนุมัติ</a>";
                             }else{
@@ -253,5 +229,5 @@
     return $ut; 
   }
 
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

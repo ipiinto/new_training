@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	$member_id = $_GET['member_id'];
 ?>
 <link href="../bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
@@ -40,11 +41,9 @@
 	check_member_regis_in_course ($member_id);
 	function call_member($member_id){
 		include('../config/config.php');
-		mysql_connect($host,$hostuser,$hostpass);
-		mysql_query("SET NAMES UTF8");
 		$sql_name = "SELECT name, surname FROM member WHERE member_id = $member_id";
-		$results = mysql_db_query($database,$sql_name);
-		$rows = mysql_fetch_array($results);
+		$results = mysqli_query($dbcon,$sql_name);
+		$rows = mysqli_fetch_array($results);
 		return $rows;
 		//echo $sql_name;
 	}
@@ -57,25 +56,25 @@
 		include('../config/config.php');
         $cos_id=$_GET['cos_id'];
 /*		mysql_connect($host,$hostuser,$hostpass);
-		mysql_query("SET NAMES UTF8");
+		mysqli_query("SET NAMES UTF8");
 		$sql_select_course_in_member = "SELECT DISTINCT cos_id FROM learn WHERE member_id = $member_id";
-		$results_4 = mysql_db_query($database,$sql_select_course_in_member);*/
-		//while($rows = mysql_fetch_array($results_4)){
+		$results_4 = mysqli_query($dbcon,$sql_select_course_in_member);*/
+		//while($rows = mysqli_fetch_array($results_4)){
 			//$cos_id = $rows['cos_id'];
 			$sql_count_subject_in_course = "SELECT COUNT( sub_id ) FROM  learn WHERE cos_id = $cos_id AND member_id = $member_id";								
-			$results_5 = mysql_db_query($database,$sql_count_subject_in_course);
+			$results_5 = mysqli_query($dbcon,$sql_count_subject_in_course);
 			echo "<font color='#e31e1e'>";
-			$row = mysql_fetch_array($results_5);
+			$row = mysqli_fetch_array($results_5);
 			$var_1 = $row[0];
 			echo "</font>";
 			$sql_select_course_in_course_item = "SELECT COUNT( sub_id ) FROM course_item WHERE cos_id = $cos_id";
-			$results_5 = mysql_db_query($database,$sql_select_course_in_course_item);
+			$results_5 = mysqli_query($dbcon,$sql_select_course_in_course_item);
 			echo "<font color='#7B52E3'>";
-			$row = mysql_fetch_array($results_5);
+			$row = mysqli_fetch_array($results_5);
 			$var_2 = $row[0];
             $sql_course_name="SELECT course.cos_name FROM course WHERE cos_id = $cos_id";
-            $results_5 = mysql_db_query($database,$sql_course_name);
-            $row = mysql_fetch_array($results_5);
+            $results_5 = mysqli_query($dbcon,$sql_course_name);
+            $row = mysqli_fetch_array($results_5);
             $var_name = $row[0];
 			echo "</font>";
 			$i = 0;
@@ -91,8 +90,8 @@
 								ON learn.member_id = member.member_id
 								WHERE learn.member_id = $member_id
 								AND learn.cos_id = $cos_id";
-				$results = mysql_db_query($database,$sql_base);
-				while ($rows = mysql_fetch_array($results)) {
+				$results = mysqli_query($dbcon,$sql_base);
+				while ($rows = mysqli_fetch_array($results)) {
 					echo "<tr>";
 					//print_r($rows);
 					//echo "</br>";
@@ -106,8 +105,8 @@
 									AND subject.sub_id = $sub_id
 									AND member.member_id = $member_id
 									AND teacher.teacher_id = section.teacher_id";
-					$results_2 = mysql_db_query($database,$sql_final);
-					$rows = mysql_fetch_array($results_2);
+					$results_2 = mysqli_query($dbcon,$sql_final);
+					$rows = mysqli_fetch_array($results_2);
 					$strDay = getDay($rows["sDay"]);
 					$strSince = getSince($rows["sSnc"]);
 					$strUntil = getUntil($rows["sUnt"]);
@@ -126,8 +125,8 @@
 				$sql_select_price_n_discount = "SELECT price, discount 
 														FROM  course 
 														WHERE cos_id = $cos_id";
-				$results = mysql_db_query($database,$sql_select_price_n_discount);
-				$row = mysql_fetch_array($results);
+				$results = mysqli_query($dbcon,$sql_select_price_n_discount);
+				$row = mysqli_fetch_array($results);
 /*				echo "<tr bgcolor = '#FF9999'>";
 				echo "<td colspan = '5'>รวมราคาจ่ายแบบหลักสูตร","</td>";
 				echo "<td align='center'>",$row['discount'],"</td>";
@@ -147,8 +146,8 @@
 												WHERE learn.sub_id = subject.sub_id
 												AND learn.cos_id = $cos_id
 												AND learn.member_id = $member_id";
-				$results = mysql_db_query($database,$sql_select_from_subject);
-				while ($rows = mysql_fetch_array($results)) {
+				$results = mysqli_query($dbcon,$sql_select_from_subject);
+				while ($rows = mysqli_fetch_array($results)) {
 					echo "<tr>";
 					//print_r($rows);
 					//echo "</br>";
@@ -161,8 +160,8 @@
 									AND section.sec_id = $sec_id
 									AND member.member_id = $member_id
 									AND teacher.teacher_id = section.teacher_id";
-					$results_2 = mysql_db_query($database,$sql_final);
-					$rows = mysql_fetch_array($results_2);
+					$results_2 = mysqli_query($dbcon,$sql_final);
+					$rows = mysqli_fetch_array($results_2);
 					$strDay = getDay($rows["sDay"]);
 					$strSince = getSince($rows["sSnc"]);
 					$strUntil = getUntil($rows["sUnt"]);

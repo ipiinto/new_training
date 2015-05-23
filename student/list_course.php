@@ -1,10 +1,6 @@
 <?php
   session_start();
-  
   include('../config/config.php');
-  mysql_connect($host,$hostuser,$hostpass);
-  mysql_query("SET NAMES UTF8");
-  
   if($_SESSION["login"]==""){
     echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
     exit();
@@ -12,7 +8,7 @@
 ?>
 <html lang="en">
   <meta charset="UTF-8">
-  <title><?php echo $ribbon;?></title>
+  <title><?php echo $ribon;?></title>
    <link rel="stylesheet" type="text/css" href="../bootstrap-3.2.0-dist/css/bootstrap.css">
     <script type="text/javascript" src="../style.css"></script>
     <script src="../jquery/jquery-2.1.3.js"></script>
@@ -84,8 +80,8 @@
           <ul class="nav navbar-right">
           	<?php
               $sql="select * from member where username='".$_SESSION['login']."'";
-              $result=mysql_db_query($database,$sql);
-              $rows=mysql_fetch_array($result);
+              $result=mysqli_query($dbcon,$sql);
+              $rows=mysqli_fetch_array($result);
             ?>
             <li class="dropdown" style="margin-top:1px" style="margin-right:15px">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -119,8 +115,8 @@
     <table width="100%" border="0" cellspacing="2" cellpadding="2" class="table table-hover">
       <?php
         $sql="select * from course where num_sec<cos_max order by cos_name ";
-        $result=mysql_db_query($database,$sql);
-        while($row=mysql_fetch_array($result)){
+        $result=mysqli_query($dbcon,$sql);
+        while($row=mysqli_fetch_array($result)){
       ?>
       <tr>
         <td width="80"><img src="../images/course.png" width="80" height="81" /></td>
@@ -132,10 +128,10 @@
               <td width="699" rowspan="4" align="right" valign="middle">
               	<?php
                   $sql="select approve from learn where cos_id=$row[0] and member_id=".$_SESSION["id"];
-                  $result_learn=mysql_db_query($database,$sql);
-                  $nRow=mysql_num_rows($result_learn);
+                  $result_learn=mysqli_query($dbcon,$sql);
+                  $nRow=mysqli_num_rows($result_learn);
                   if($nRow!=0){
-                    $row_learn=mysql_fetch_array($result_learn);
+                    $row_learn=mysqli_fetch_array($result_learn);
                     if($row_learn[0]==0){
                       echo "<font color='red'>รออนุมัติ</a>";
                     }else{

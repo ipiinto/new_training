@@ -1,37 +1,16 @@
-<?
+<?php
 	session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
-	
-	if($_GET["Action"] == "Save"){
-		//*** Insert Reply ***//
-		$sql="INSERT INTO reply (QuestionID,CreateDate,Details,Name) VALUES ";
-		$sql=$sql."('".$_REQUEST["QuestionID"]."','".date("Y-m-d H:i:s")."','".$_REQUEST["txtDetails"]."','".$_SESSION['name']."')";
-
-		//echo $sql;
-		$result=mysql_db_query($database,$sql);
-	
-		//*** Update Reply ***//
-		$sql="update webboard SET Reply = Reply + 1 WHERE QuestionID = '".$_GET["QuestionID"]."' ";
-		$result=mysql_db_query($database,$sql);	
-	}
 ?>
-	
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -40,7 +19,7 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? if ($_SESSION['state']=='นักเรียน'){
+        <?php if ($_SESSION['state']=='นักเรียน'){
 			include "../student/header.php"; 
 			} else if ($_SESSION['state']=='อาจารย์'){
 				include "../teacher/header.php";
@@ -54,7 +33,7 @@
   </tr>
   <tr>
     <td height="46" valign="middle" background="../images/bg_menu.png">
-		<?
+		<?php
 			include "../menu1.php";
 		?>
     </td>
@@ -68,51 +47,51 @@
       		<tr>
         		<td>
 					                   	
-                    <?
+                    <?php
                     
 						$sql="select * from webboard WHERE QuestionID = '".$_GET["QuestionID"]."' ";
-						$result=mysql_db_query($database,$sql);
-						$row=mysql_fetch_array($result);
+						$result=mysqli_query($dbcon,$sql);
+						$row=mysqli_fetch_array($result);
 						
 						$sql=" update webboard SET View = View + 1 WHERE QuestionID ='".$_GET["QuestionID"]."' ";
-						$result=mysql_db_query($database,$sql);
+						$result=mysqli_query($dbcon,$sql);
 						
 					?>
                     <table width="738" border="1" align="center" cellpadding="0" cellspacing="1" bordercolor="#52679F">
 						<tr>
-							<td colspan="2" bgcolor="#52679F"><h1 class="wh" align="center"><? echo $row["Question"];?></h1></td>
+							<td colspan="2" bgcolor="#52679F"><h1 class="wh" align="center"><?php echo $row["Question"];?></h1></td>
 						</tr>
 						<tr>
-							<td height="53" colspan="2" bgcolor="#dae4ff"><? echo nl2br($row["Details"]);?></td>
+							<td height="53" colspan="2" bgcolor="#dae4ff"><?php echo nl2br($row["Details"]);?></td>
 						</tr>
 						<tr>
-							<td width="397" bgcolor="#52679F" class="wh">ผู้โพสต์ : <? echo $row["Name"];?> โพสต์เมื่อ : <? echo $row["CreateDate"];?></td>
-							<td width="253" bgcolor="#52679F" class="wh">ยอดชม : <? echo $row["View"];?> ตอบกลับ : <? echo $row["Reply"];?></td>
+							<td width="397" bgcolor="#52679F" class="wh">ผู้โพสต์ : <?php echo $row["Name"];?> โพสต์เมื่อ : <?php echo $row["CreateDate"];?></td>
+							<td width="253" bgcolor="#52679F" class="wh">ยอดชม : <?php echo $row["View"];?> ตอบกลับ : <?php echo $row["Reply"];?></td>
 						</tr>
 					</table>
                     <br>
 					<br>
-                    <?
+                    <?php
 						$nRows = 0;
 						$sql2 = "SELECT * FROM reply WHERE QuestionID = '".$_GET["QuestionID"]."' ";
-						$result2=mysql_db_query($database,$sql2);
-						while($rows=mysql_fetch_array($result2)){
+						$result2=mysqli_query($dbcon,$sql2);
+						while($rows=mysqli_fetch_array($result2)){
 							$nRows++;
 					?>
                     <table width="738" border="1" align="center" cellpadding="0" cellspacing="1" bordercolor="#52679F">
                     	<tr>
-                       	  <td colspan="4" bgcolor="#52679F" class="wh">#<? echo $nRows;?></td>
+                       	  <td colspan="4" bgcolor="#52679F" class="wh">#<?php echo $nRows;?></td>
                         </tr>
 						<tr>
 							<td height="53" colspan="2" rowspan="2" align="center" valign="middle" bgcolor="#DAE4FF"><img src="../images/on.png" width="48" height="48"  alt=""/></td>
-                            <td colspan="2" height="40"><? echo nl2br($rows["Details"]);?></td>
+                            <td colspan="2" height="40"><?php echo nl2br($rows["Details"]);?></td>
 					  </tr>
 						<tr>
-							<td width="397" bgcolor="#52679F" class="wh">โดย : <? echo $_SESSION['name'];?></td>
-							<td width="253" bgcolor="#52679F" class="wh">เมื่อ:<? echo $rows["CreateDate"];?></td>
+							<td width="397" bgcolor="#52679F" class="wh">โดย : <?php echo $_SESSION['name'];?></td>
+							<td width="253" bgcolor="#52679F" class="wh">เมื่อ:<?php echo $rows["CreateDate"];?></td>
 					  </tr>
 					</table>
-					<?
+					<?php
 						}
 					?>
 					<p><a href="forum.php"> << กลับ</a></a></p>
@@ -143,6 +122,20 @@
 </table>
 </body>
 </html>
-<?
-	mysql_close();
+<?php
+	if (!empty($_GET["Action"])) {
+		if($_GET["Action"] == "Save"){
+			//*** Insert Reply ***//
+			$sql="INSERT INTO reply (QuestionID,CreateDate,Details,Name) VALUES ";
+			$sql=$sql."('".$_REQUEST["QuestionID"]."','".date("Y-m-d H:i:s")."','".$_REQUEST["txtDetails"]."','".$_SESSION['name']."')";
+
+			//echo $sql;
+			$result=mysqli_query($dbcon,$sql);
+		
+			//*** Update Reply ***//
+			$sql="update webboard SET Reply = Reply + 1 WHERE QuestionID = '".$_GET["QuestionID"]."' ";
+			$result=mysqli_query($dbcon,$sql);	
+		}
+	}
+	mysqli_close($dbcon);
 ?>
