@@ -2,7 +2,7 @@
 <link href="bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
 <td height="81" background="images/bg_banner.jpg">
 <?php
-  if(isset($_SESSION['id'])==""){
+  if(isset($_SESSION['login'])==""){
 ?>  
     <div class="table-responsive">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -41,21 +41,36 @@
   </td>
 <?php
   }else{
+    if (!empty($_SESSION['state']) && !empty($_SESSION['login'])) {
+      $state = $_SESSION['state'];
+      $login = $_SESSION['login'];
+      if ($state == 'ผู้ดูแลระบบ') {
+        $state = 'office';
+        $sele = "name";
+      } elseif ($state == 'อาจารย์') {
+        $state = 'teacher';
+        $sele = "name, surname";
+      } elseif ($state == 'นักเรียน') {
+        $state = 'member';
+        $sele = "name, surname";
+      }
+    }
+    $sql = "SELECT $sele FROM $state WHERE username = '$login'";
+    $result = mysqli_query($dbcon,$sql);
+    while ($rows = mysqli_fetch_array($result)) {
+      $name = $rows['name'];
+      @$surname = $rows['surname'];
+    }
 ?>
       <div class="table-responsive">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="446"><a href="index.php"><img src="../images/top_logo1.png" width="446" height="75" /></a></td>
+            <td width="446"><a href="index.php"><img src="images/top_logo1.png" width="446" height="75" /></a></td>
             <td width="256">&nbsp;</td>
             <td width="366">
-            <?php
-              $sql="select * from member where username='".$_SESSION['login']."'";
-              $result=mysqli_query($dbcon,$sql);
-              $rows=mysqli_fetch_array($result);
-              echo "<font color='#FFFFFF'>ยินดีต้อนรับคุณ </font><a href='edit_profile.php'><font color='#FFFFFF'>$rows[3]&nbsp;&nbsp;$rows[4]</a>&nbsp;&nbsp;(".$_SESSION['state'].")</font>";
-              echo "<br>[<a href='change_pwd.php'><font color='#FFFFFF'>เปลี่ยนรหัสผ่าน</font></a>]";
-              echo "[<a href='logout.php'><font color='#FFFFFF'>ออกจากระบบ</font></a>]";  
-            ?>
+            <font color='#FFFFFF'>ยินดีต้อนรับคุณ </font><a href='edit_profile.php'><font color='#FFFFFF'><?php echo $name ?>&nbsp;&nbsp;<?php echo $surname ?></a>&nbsp;&nbsp;(<?php echo $state ?>)</font>
+            <br><a href='change_pwd.php'><font color='#FFFFFF'>เปลี่ยนรหัสผ่าน</font></a>
+            <a href='logout.php'><font color='#FFFFFF'>ออกจากระบบ</font></a>
             </td>
           </tr>
         </table>
