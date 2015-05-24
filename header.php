@@ -62,19 +62,19 @@
       @$surname = $rows['surname'];
     }
 ?>
-      <div class="table-responsive">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td width="446"><a href="index.php"><img src="images/top_logo1.png" width="446" height="75" /></a></td>
-            <td width="256">&nbsp;</td>
-            <td width="366">
-            <font color='#FFFFFF'>ยินดีต้อนรับคุณ </font><a href='edit_profile.php'><font color='#FFFFFF'><?php echo $name ?>&nbsp;&nbsp;<?php echo $surname ?></a>&nbsp;&nbsp;(<?php echo $state ?>)</font>
-            <br><a href='change_pwd.php'><font color='#FFFFFF'>เปลี่ยนรหัสผ่าน</font></a>
-            <a href='logout.php'><font color='#FFFFFF'>ออกจากระบบ</font></a>
-            </td>
-          </tr>
-        </table>
-      </div>
+  <div class="table-responsive">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="446"><a href="index.php"><img src="images/top_logo1.png" width="446" height="75" /></a></td>
+        <td width="256">&nbsp;</td>
+        <td width="366">
+        <font color='#FFFFFF'>ยินดีต้อนรับคุณ </font><a href='edit_profile.php'><font color='#FFFFFF'><?php echo $name ?>&nbsp;&nbsp;<?php echo $surname ?></a>&nbsp;&nbsp;(<?php echo $state ?>)</font>
+        <br><a href='change_pwd.php'><font color='#FFFFFF'>เปลี่ยนรหัสผ่าน</font></a>
+        <a href='logout.php'><font color='#FFFFFF'>ออกจากระบบ</font></a>
+        </td>
+      </tr>
+    </table>
+  </div>
 <?php
   }
 ?>
