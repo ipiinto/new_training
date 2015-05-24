@@ -1,6 +1,5 @@
 <?php
     session_start();
-	$_SESSION['login']="";
 	include('config/config.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -8,8 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $ribon; ?></title>
-
-
 <link href="style.css" rel="stylesheet" type="text/css">
     <link href="themes/2/js-image-slider.css" rel="stylesheet" type="text/css" />
     <script src="themes/2/js-image-slider.js" type="text/javascript"></script>
