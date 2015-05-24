@@ -1,24 +1,19 @@
 <?php
 	session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
-	$page=$_GET["page"];
-	if (empty($page)){
-		$page=1;
-	}
-	
+  if (empty($_GET["Page"])) {
+    $Page = 1;
+  } else {
+    $Page = $_GET["Page"];
+  }
 	$sub_id=$_GET["sub_id"];
 	$sql="select sub_name , time_sub from subject where sub_id=$sub_id ";
-	$result=mysql_db_query($database,$sql);
-	$row=mysql_fetch_array($result);
+	$result=mysqli_query($dbcon,$sql);
+	$row=mysqli_fetch_array($result);
 	$sub_name=$row["sub_name"];
 	$time_sub=$row["time_sub"];
 ?>
@@ -88,23 +83,18 @@
                   </tr>
                   <?php
 			  	$sql="select  *  from document  where sub_id=$sub_id order by autoid ";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				$tr=$nRow%$list_page;
-				
-				
-				
-				
-				
-				if($rt!=0) { 
+				if($tr!=0) { 
 					$totalpage = floor($nRow/$list_page)+1; 
 				}else {
 					$totalpage = floor($nRow/$list_page)+1; 
 				}
-				$goto = ($page-1)*$list_page;
+				$goto = ($Page-1)*$list_page;
 				$sql=$sql . " limit $goto,$list_page";
-				$result=mysql_db_query($database,$sql);
-				while($row=mysql_fetch_array($result)){
+				$result=mysqli_query($dbcon,$sql);
+				while($row=mysqli_fetch_array($result)){
 			  ?>
                   <tr>
                     <td width="30" align="center" bgcolor="#FFFFFF">
@@ -143,8 +133,8 @@
                     </strong><span class="t10">ลงโดย
                     <?php
 						$sql="select name , surname from teacher where teacher_id=$row[2] ";
-						$result_teacher=mysql_db_query($database,$sql);
-						$row_teacher=mysql_fetch_array($result_teacher);
+						$result_teacher=mysqli_query($dbcon,$sql);
+						$row_teacher=mysqli_fetch_array($result_teacher);
 						echo "$row_teacher[0]  $row_teacher[1]";
 					?>
                      เมื่อว้นที่ <?php echo $row["day_in"] ?> <?php echo $row["time_in"] ?></span></td>
@@ -234,5 +224,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

@@ -1,10 +1,6 @@
 <?php
   session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
@@ -47,8 +43,8 @@
         <td align="center">&nbsp;</td>
       </tr>
       <tr>
-        <td align="center"><a href="../student/logout.php"></a></td>
-        <td align="center"><a href="../student/logout.php"><img src="../images/logout_icon.jpg" width="80" height="81" border="0" /></a></td>
+        <td align="center"><a href="../logout.php"></a></td>
+        <td align="center"><a href="../logout.php"><img src="../images/logout_icon.jpg" width="80" height="81" border="0" /></a></td>
         <td align="center"><a href="logout.php"></a></td>
       </tr>
       <tr>
@@ -64,5 +60,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

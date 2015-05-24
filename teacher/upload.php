@@ -1,9 +1,8 @@
-<?
+<?php
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -17,8 +16,8 @@
 	
 	$sub_id=$_POST["sub_id"];	
 	$sql="select sub_name , time_sub from subject where sub_id=$sub_id ";
-	$result=mysql_db_query($database,$sql);
-	$row=mysql_fetch_array($result);
+	$result=mysqli_query($dbcon,$sql);
+	$row=mysqli_fetch_array($result);
 	$sub_name=$row["sub_name"];
 	$time_sub=$row["time_sub"];
 ?>
@@ -86,7 +85,7 @@
             						$sql="insert into document(sub_id , teacher_id , day_in , time_in , file_name , title , file_type ) ";
             						$sql=$sql . " values($sub_id , ".$_SESSION["id"]." , '$day_in' , '$time_in' , '$tempfile' " ;
             						$sql=$sql . " , '$title' , '$typefile' )";
-            						$result=mysql_db_query($database,$sql);
+            						$result=mysqli_query($dbcon,$sql);
             					}
 					             echo "<script language=\"javascript\">window.location.href = 'document.php?sub_id=$sub_id'</script>";
 				          ?>
@@ -105,5 +104,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

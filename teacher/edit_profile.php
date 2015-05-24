@@ -2,16 +2,15 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
 	$sql="select * from teacher where teacher_id=".$_SESSION['id'];
-	$result=mysql_db_query($database,$sql);
-	$rows=mysql_fetch_array($result);
+	$result=mysqli_query($dbcon,$sql);
+	$rows=mysqli_fetch_array($result);
 	$action=$_POST["action"];
 	if($action==1){
 		$username=$_POST["username"];
@@ -46,7 +45,7 @@
 		if($name !="" and $surname !="" and $nickname !="" and $email !="" and $gender !="" and $telephone !="" and $address !=""){
 			$sql="update teacher set name='$name' , surname='$surname' , nickname='$nickname' , email='$email' , gender='$gender' , telephone='$telephone' , address='$address' ";
 				$sql=$sql . " where teacher_id=".$_SESSION['id'];
-				$result=mysql_db_query($database,$sql);
+				$result=mysqli_query($dbcon,$sql);
 				
 				echo "<script language=\"javascript\">window.location.href = 'index.php'</script>";
 				exit();
@@ -219,5 +218,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>
