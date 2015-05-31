@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	$action=$_POST["action"];
 	$username=$_POST["username"];
@@ -56,10 +55,10 @@
 			
 			$sql="insert into jobs(username , pass , name , surname ,nickname , gender , stat , nation , birthday , address , email , telephone , subj )";
 			$sql=$sql . " values('$username' , '$pass' , '$name' , '$surname' ,'$nickname' , '$gender' , '$stat' , '$nation' , '$birthday' , '$address' , '$email' , '$telephone' , '$subj')";
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
       echo $sql;
 			echo "<script language=\"javascript\">window.location.href = 'index.php'</script>";
-			//$result=mysql_db_query($database,$sql);
+			//$result=mysqli_query($dbcon,$sql);
 			exit();
 		}
 	}
@@ -171,7 +170,7 @@
                 <td align="right">ชื่อ-สกุล :</td>
                 <td>
                   <input name="name" type="text" id="name" value="<?php echo $name ?>" placeholder="ชื่อ" />
-                  <input name="surname" type="text" id="surname" value="<? echo $surname ?>" placeholder="สกุล" /> 
+                  <input name="surname" type="text" id="surname" value="<?php echo $surname ?>" placeholder="สกุล" /> 
                   <span class="t10r">*
                   <?php
                     if($action=="1"){
@@ -351,5 +350,5 @@
 </html>
 
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	$action=$_POST["action"];
 	$username=$_POST["username"];
@@ -59,13 +58,13 @@
               if(move_uploaded_file($_FILES['profile']['tmp_name'], $target_path)) {
                 $sql="insert into jobs(username , pass , name , surname ,nickname , profile , gender , birthday , address , email , telephone , parents_name , parents_tel )";
                 $sql=$sql . " values('$username' , '$pass' , '$name' , '$surname' ,'$nickname' , $profile '$gender' , '$birthday' , '$address' , '$email' , '$telephone' , '$parents_name' , '$parents_tel')";
-                $result=mysql_db_query($database,$sql);
+                $result=mysqli_query($dbcon,$sql);
               }else{
                 echo "There was an error uploading the file, please try again!";
                 echo $sql;
               }
             }
-              $result=mysql_db_query($database,$sql);
+              $result=mysqli_query($dbcon,$sql);
               //echo "<script language=\"javascript\">window.location.href = 'news_frm.php'</script>";
               exit();
         }

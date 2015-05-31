@@ -1,9 +1,8 @@
-<?
+<?php
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -17,11 +16,11 @@
 		$sql=$sql."('".$_REQUEST["QuestionID"]."','".date("Y-m-d H:i:s")."','".$_REQUEST["txtDetails"]."','".$_SESSION['login']."')";
 
 		//echo $sql;
-		$result=mysql_db_query($database,$sql);
+		$result=mysqli_query($dbcon,$sql);
 	
 		//*** Update Reply ***//
 		$sql="update webboard SET Reply = Reply + 1 WHERE QuestionID = '".$_GET["QuestionID"]."' ";
-		$result=mysql_db_query($database,$sql);	
+		$result=mysqli_query($dbcon,$sql);	
 	}
 ?>
 	
@@ -31,7 +30,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -40,7 +39,7 @@
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? if ($_SESSION['state']=='นักเรียน'){
+        <?php if ($_SESSION['state']=='นักเรียน'){
 			include "student/header.php"; 
 			} else if ($_SESSION['state']=='อาจารย์'){
 				include "teacher/header.php";
@@ -53,7 +52,7 @@
     </table>      <a href="../index.php"></a></td>
   </tr>
   <tr>
-    <td height="46" valign="top" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" valign="top" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td height="400" valign="top">
@@ -64,48 +63,48 @@
       		<tr>
         		<td>
 					                   	
-                    <?
+                    <?php
                     
 						$sql="select * from webboard WHERE QuestionID = '".$_GET["QuestionID"]."' ";
-						$result=mysql_db_query($database,$sql);
-						$row=mysql_fetch_array($result);
+						$result=mysqli_query($dbcon,$sql);
+						$row=mysqli_fetch_array($result);
 						
 						$sql=" update webboard SET View = View + 1 WHERE QuestionID ='".$_GET["QuestionID"]."' ";
-						$result=mysql_db_query($database,$sql);
+						$result=mysqli_query($dbcon,$sql);
 						
 					?>
                     <table width="738" border="1" cellpadding="1" cellspacing="1">
 						<tr>
-							<td colspan="2"><center><h1><? echo $row["Question"];?></h1></center></td>
+							<td colspan="2"><center><h1><?php echo $row["Question"];?></h1></center></td>
 						</tr>
 						<tr>
-							<td height="53" colspan="2"><? echo nl2br($row["Details"]);?></td>
+							<td height="53" colspan="2"><?php echo nl2br($row["Details"]);?></td>
 						</tr>
 						<tr>
-							<td width="397">ผู้โพสต์ : <? echo $row["Name"];?> Create Date : <? echo $row["CreateDate"];?></td>
-							<td width="253">View : <? echo $row["View"];?> Reply : <? echo $row["Reply"];?></td>
+							<td width="397">ผู้โพสต์ : <?php echo $row["Name"];?> Create Date : <?php echo $row["CreateDate"];?></td>
+							<td width="253">View : <?php echo $row["View"];?> Reply : <?php echo $row["Reply"];?></td>
 						</tr>
 					</table>
                     <br>
 					<br>
-                    <?
+                    <?php
 						$nRows = 0;
 						$sql2 = "SELECT * FROM reply WHERE QuestionID = '".$_GET["QuestionID"]."' ";
-						$result2=mysql_db_query($database,$sql2);
-						while($rows=mysql_fetch_array($result2)){
+						$result2=mysqli_query($dbcon,$sql2);
+						while($rows=mysqli_fetch_array($result2)){
 							$nRows++;
-					?>No : <? echo $nRows;?>
+					?>No : <?php echo $nRows;?>
                     <table width="738" border="1" cellpadding="1" cellspacing="1">
 						<tr>
-							<td height="53" colspan="2"><? echo nl2br($rows["Details"]);?></td>
+							<td height="53" colspan="2"><?php echo nl2br($rows["Details"]);?></td>
 						</tr>
 						<tr>
-							<td width="397">Name : <? echo $rows["Name"];?></td>
-							<td width="253">Create Date :<? echo $rows["CreateDate"];?></td>
+							<td width="397">Name : <?php echo $rows["Name"];?></td>
+							<td width="253">Create Date :<?php echo $rows["CreateDate"];?></td>
   						</tr>
 					</table>
                     <br>
-					<?
+					<?php
 						}
 						echo "<pre>";
 						print_r($_SERVER);
@@ -140,6 +139,6 @@
 </table>
 </body>
 </html>
-<?
-	mysql_close();
+<?php
+	mysqli_close($dbcon);
 ?>

@@ -2,6 +2,38 @@
 <link href="bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
 <td height="81" background="images/bg_banner.jpg">
 <?php
+  // added in v4.0.0
+  require_once 'autoload.php';
+
+  use Facebook\FacebookSession;
+  use Facebook\FacebookRedirectLoginHelper;
+  use Facebook\FacebookRequest;
+  use Facebook\FacebookResponse;
+  use Facebook\FacebookSDKException;
+  use Facebook\FacebookRequestException;
+  use Facebook\FacebookAuthorizationException;
+  use Facebook\GraphObject;
+  use Facebook\Entities\AccessToken;
+  use Facebook\HttpClients\FacebookCurlHttpClient;
+  use Facebook\HttpClients\FacebookHttpable;
+  use Facebook\GraphUser;
+  use Facebook\GraphSessionInfo;
+
+  // start session
+
+  // init app with app id and secret
+  FacebookSession::setDefaultApplication( '824341307659392','6a49c231121a9833784cbfb7b061cf1f' );
+
+  // login helper with redirect_uri
+  $helper = new FacebookRedirectLoginHelper('http://localhost/new_training/chklogin.php' );
+
+  try {
+    $session = $helper->getSessionFromRedirect();
+  } catch( FacebookRequestException $ex ) {
+    // When Facebook returns an error
+  } catch( Exception $ex ) {
+    // When validation fails or other local issues
+  }
   if(isset($_SESSION['login'])==""){
 ?>  
     <div class="table-responsive">
@@ -19,7 +51,16 @@
               <tr>
                 <td><input name='username' type='text' autofocus id='username' size='15' placeholder="กรอกชื่อผู้ใช้"></td>
                 <td><input name='pass' type='password' id='pass' size='15' placeholder="กรอกรหัสผ่าน"></td>
-                <td><button type="submit" class="btn btn-primary btn-xs" >เข้าสู่ระบบ</button></td>
+                <?php
+                  // see if we have a session
+                  if ( isset( $session ) ) {
+                    echo '<a href="' . $helper->getLogoutUrl($session, 'http://localhost/new_training/index.php') . '">Logout</a>';
+                  } else {
+                    // show login url
+                    echo "<td><a href='".$helper->getLoginUrl()."'><button type='button' class='btn btn-primary btn-xs'>Facebook</button></td></a>";
+                  }
+                ?>
+                <td><button type="submit" class="btn btn-primary btn-xs">เข้าสู่ระบบ</button></td>
               </tr>
               <tr>
                 <td>

@@ -3,7 +3,7 @@
   
   include('config/config.php');
   mysql_connect($host,$hostuser,$hostpass);
-  mysql_query("SET NAMES UTF8");
+  mysqli_query("SET NAMES UTF8");
     
   $page=$_GET["page"];
   if (empty($page)){
@@ -16,14 +16,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <table width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <? include "header.php";?>
+    <?php include "header.php";?>
   </tr>
   <tr>
     <td height="46" background="images/bg_menu.png"><?php include('menu.php') ?></td>
@@ -149,12 +149,12 @@
                if(move_uploaded_file($_FILES['fileupload']['tmp_name'], $target_path)) {
                 $sql="insert into member(username , pass , name , surname , nickname , fileupload , gender , birthday , address , email , telephone , parents_name , parents_tel )";
                 $sql=$sql . " values('$username' , '$pass' , '$name' , '$surname' ,'$nickname' , '$tempfile' , '$gender' , '$birthday' , '$address' , '$email' , '$telephone' , '$parents_name' ,'$parents_tel')";
-               //$result=mysql_db_query($database,$sql);
+               //$result=mysqli_query($dbcon,$sql);
                 }else{
                   echo "There was an error uploading the file, please try again!";
                 }
               }
-                $result=mysql_db_query($database,$sql);
+                $result=mysqli_query($dbcon,$sql);
                 echo "<script language=\"javascript\">window.location.href = 'register_form.php'</script>";
                 exit();
             }
@@ -176,5 +176,5 @@
 </body>
 </html>
 <?php
-  mysql_close();
+  mysqli_close($dbcon);
 ?>

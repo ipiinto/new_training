@@ -2,9 +2,8 @@
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	mysql_select_db($database);
+	
+	mysql_select_db($dbcon);
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -52,8 +51,8 @@
 				if ($i == $j) {
 					$sql= "select section.sec_id,section.sec_name,subject.sub_id,subject.sub_name,section.day,section.since,section.until,subject.price
 from subject,section where subject.sub_id=".$sub_id[$i]." and section.sec_id=".$sec_id[$j];
-					$result=mysql_query($sql);
-					while($row=mysql_fetch_array($result)){
+					$result=mysqli_query($sql);
+					while($row=mysqli_fetch_array($result)){
 						
 						$strDay=getDay($row[4]);
 						$strSince=getSince($row[5]);
@@ -161,5 +160,5 @@ from subject,section where subject.sub_id=".$sub_id[$i]." and section.sec_id=".$
 		return $ut;	
 	}
 
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

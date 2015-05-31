@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -62,12 +61,12 @@ function submitform(){
               <p>
                 <?php
           				$sql=$_POST["sql"];
-          				$result=mysql_db_query($database,$sql);
-          				while($row=mysql_fetch_array($result)){
+          				$result=mysqli_query($dbcon,$sql);
+          				while($row=mysqli_fetch_array($result)){
           					$ch=$_POST["ch$row[0]"];
           					if($ch==1){
           						$sql="delete from member where member_id=$row[0]";
-          						$result1=mysql_db_query($database,$sql);
+          						$result1=mysqli_query($dbcon,$sql);
           						echo $sql . "<br>";
                     }
                   }
@@ -92,5 +91,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

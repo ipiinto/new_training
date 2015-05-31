@@ -3,7 +3,7 @@
   $_SESSION['login']="";
   include('config/config.php');
   mysql_connect($host,$hostuser,$hostpass);
-  mysql_query("SET NAMES UTF8");
+  mysqli_query("SET NAMES UTF8");
 ?>
 <!DOCTYPE html>
 <html lang="en">

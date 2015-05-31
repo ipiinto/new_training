@@ -47,7 +47,7 @@
       		<tr>
         		<td>           
 		<?php
-        	$sql="select * from webboard";
+      $sql="select * from webboard";
 			$result=mysqli_query($dbcon,$sql);
 			$nRow=mysqli_num_rows($result);
 			$Per_Page = 10;   // Per Page

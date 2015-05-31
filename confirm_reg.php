@@ -1,10 +1,9 @@
-<?
+<?php
 	session_start();
 	
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	mysql_select_db($database);
+	
+	mysql_select_db($dbcon);
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -15,24 +14,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <table width="1024" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
   <tr>
-    <? include "student/header.php";?>
+    <?php include "student/header.php";?>
   </tr>
   <tr>
-    <td height="46" background="images/bg_menu.png"><? include('student/menu.php') ?></td>
+    <td height="46" background="images/bg_menu.png"><?php include('student/menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td height="400" align="center" valign="top">
-    <?
+    <?php
 		//print_r($_SESSION);
 		$sub_id = $_SESSION["sub_id"];
 		$sec_id = $_SESSION["sec_id"];
@@ -45,21 +44,21 @@
               <th width="32%" bgcolor="#52679F"><div align="center" class="wh">วัน - เวลา</div></th>
 			</tr>
             
-        <?
+        <?php
 			$sql= "select course.cos_id,course.cos_name,section.sec_id,section.sec_name,subject.sub_id,subject.sub_name,section.day,section.since,section.until from subject,section where subject.sub_id=$sub_id and section.sec_id=$sec_id";
-				$result=mysql_db_query($sql);
+				$result=mysqli_query($sql);
 				echo $sql;
-				while($row=mysql_fetch_array($result)){
+				while($row=mysqli_fetch_array($result)){
 					$strDay=getDay($row[4]);
 					$strSince=getSince($row[5]);
 					$strUntil=getUntil($row[6]);
 		?>
 	    			<tr>
-	    				<td align="center" valign="middle" bgcolor="#dae4ff"><? echo $row[1];?></td>
-	                    <td align="center" valign="middle" bgcolor="#dae4ff"><? echo $row[3];?></td>
-	                    <td align="center" valign="middle" bgcolor="#dae4ff"><? echo $strDay."&nbsp;่&nbsp;".$strSince."&nbsp;-&nbsp;".$strUntil ?></td>
+	    				<td align="center" valign="middle" bgcolor="#dae4ff"><?php echo $row[1];?></td>
+	                    <td align="center" valign="middle" bgcolor="#dae4ff"><?php echo $row[3];?></td>
+	                    <td align="center" valign="middle" bgcolor="#dae4ff"><?php echo $strDay."&nbsp;่&nbsp;".$strSince."&nbsp;-&nbsp;".$strUntil ?></td>
 	                </tr>
-	    <?
+	    <?php
 				}
 		?>
     </table>
@@ -71,7 +70,7 @@
 </table>
 </body>
 </html>
-<?
+<?php
 	function getDay($d){
 			if($d==1){
 				$da='อา.';	
@@ -148,5 +147,5 @@
 		return $ut;	
 	}
 
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

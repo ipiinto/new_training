@@ -1,9 +1,8 @@
 <?php
 	session_start();
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	mysql_select_db($database);
+	
+	mysql_select_db($dbcon);
 	$cos_id=$_GET["cos_id"];
 	//session_destroy();
 ?>
@@ -11,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="style.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript"><!--
@@ -68,14 +67,14 @@
     		<td>
     			<table width="100%" border="0" cellspacing="0" cellpadding="0">
       				<tr>
-        				<? include "header.php";?>
+        				<?php include "header.php";?>
       				</tr>
     			</table>
     			<a href="index.php"></a>
     		</td>
   		</tr>
   		<tr>
-    		<td height="46" valign="middle" background="images/bg_menu.png"><? include('menu.php') ?></td>
+    		<td height="46" valign="middle" background="images/bg_menu.png"><?php include('menu.php') ?></td>
   		</tr>
   		<tr>
     		<td height="400" valign="top">
@@ -101,21 +100,21 @@
 												$j=0;
 												$sql="select subject.sub_id , subject.sub_name , subject.price from subject , course_item ";
 												$sql=$sql . " where subject.sub_id=course_item.sub_id and course_item.cos_id=$cos_id order by sub_id ";
-												$result=mysql_query($sql);
-												while($row=mysql_fetch_array($result)){
+												$result=mysqli_query($sql);
+												while($row=mysqli_fetch_array($result)){
 												//print_r($row);
 												// echo"<br/>";
 											?>
 		            						<tr>
 		            						<!-- Subjects -->
 		              							<td width="85" rowspan="2" align="right" valign="middle">
-		              								<!-- <input type="checkbox" name="sub_id[<? echo $j; ?>]" id="sub_id[<? echo $j; ?>]" value="<? echo $row[0] ?>" onClick="priza(this,<?=$row[2];?>");" /> -->
+		              								<!-- <input type="checkbox" name="sub_id[<?php echo $j; ?>]" id="sub_id[<?php echo $j; ?>]" value="<?php echo $row[0] ?>" onClick="priza(this,<?=$row[2];?>");" /> -->
 		              								<?php
 		              									echo "<input type='checkbox' name='sub_id[$j]' id='sub_id[$j]' value='$row[0]' onClick='priza(this,$row[2])' >";
 		              								?>
 		              							</td>
 		              							<td width="87" align="right"><strong>ชื่อวิชา :</strong></td>
-		              							<td><? echo $row[1] ?></td>
+		              							<td><?php echo $row[1] ?></td>
 		            						</tr>
 		            						<tr>
 		              							<td align="right"><strong>กลุ่มเรียน : </strong></td>
@@ -124,8 +123,8 @@
 								              	<?php
 													$sql_sec="select sec_id,sec_name,day,since,until from section where sub_id=$row[0] and cos_id=$cos_id ";
 													$sql_sec=$sql_sec . "order by sec_id";
-													$result_sec=mysql_query($sql_sec);
-													while($row_sec=mysql_fetch_array($result_sec)){
+													$result_sec=mysqli_query($sql_sec);
+													while($row_sec=mysqli_fetch_array($result_sec)){
 														$strDay=getDay($row_sec[2]);
 														$strSince=getSince($row_sec[3]);
 														$strUntil=getUntil($row_sec[4]);
@@ -140,7 +139,7 @@
 	            							<tr>
 	              								<td colspan="3"><hr /></td>
 	            							</tr>
-	            							<?
+	            							<?php
 													$i++;
 													$j++;
 												}
@@ -157,9 +156,9 @@
 											<tr>
 												<td colspan="2" align="right"></td>
 												<td><input type="submit" name="button" id="button" value="ลงทะเบียนเรียน" class="btn btn-primary" />
-									                <input name="cos_id" type="hidden" id="cos_id" value="<? echo $cos_id ?>" />
-									                <input name="count_subjects" type="hidden" id="count_subjects" value="<? echo $j ?>" />
-									                <input name="end" type="hidden" id="end" value="<? echo $i ?>" />
+									                <input name="cos_id" type="hidden" id="cos_id" value="<?php echo $cos_id ?>" />
+									                <input name="count_subjects" type="hidden" id="count_subjects" value="<?php echo $j ?>" />
+									                <input name="end" type="hidden" id="end" value="<?php echo $i ?>" />
 												</td>
 								            </tr>
 										</table>
@@ -182,7 +181,7 @@
 </table>
 </body>
 </html>
-<?
+<?php
 	function getDay($d){
 			if($d==1){
 				$da='อาทิตย์';	
@@ -258,5 +257,5 @@
 		}
 		return $ut;	
 	}
-	mysql_close();	
+	mysqli_close($dbcon);	
 ?>

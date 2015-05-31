@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -13,8 +12,8 @@
 	$id=$_GET["id"];
 	if($id !=""){
 		$sql="select * from member where member_id=$id ";
-		$result=mysql_db_query($database,$sql);
-		$row=mysql_fetch_array($result);
+		$result=mysqli_query($dbcon,$sql);
+		$row=mysqli_fetch_array($result);
 		
 		$username=$row["username"];
 		$pass=$row["pass"];
@@ -97,7 +96,7 @@
 				$sql="insert into member(username , pass , name , surname ,nickname , email , telephone , gender , address , birthday , parents_name , parents_tel)";
 			$sql=$sql . " values('$username' , '$pass' , '$name' , '$surname' ,'$nickname' , '$email' , '$telephone' , '$gender' , '$address' , '$birthday' , '$parents_name' ,'$parents_tel')";
 			}
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			echo "<script language=\"javascript\">window.location.href = 'member.php'</script>";
 			
 			exit();
@@ -213,8 +212,8 @@ function submitform(){
                 </tr>
                 <tr>
                   <td align="right">ชื่อ-สกุล :</td>
-                  <td><input name="name" type="text" id="name" value="<? echo $name ?>" />
-                    <input name="surname" type="text" id="surname" value="<? echo $surname ?>" />
+                  <td><input name="name" type="text" id="name" value="<?php echo $name ?>" />
+                    <input name="surname" type="text" id="surname" value="<?php echo $surname ?>" />
                     <span class="t10r">*
                       <?php
 					if($action=="1"){
@@ -339,5 +338,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

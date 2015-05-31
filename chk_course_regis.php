@@ -6,11 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 </html>
-<?
+<?php
 	include('config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
     //session_destroy();
 	if($_SESSION["login"]!=""){
 		/*
