@@ -7,13 +7,13 @@
         	<table border="0" cellpadding="4" cellpadding="0">
         		<?php
         			$sql="select * from office where username='".$_SESSION['login']."'";
-					$result=mysql_db_query($database,$sql);
-					$rows=mysql_fetch_array($result);		
+					$result=mysqli_query($dbcon,$sql);
+					$rows=mysqli_fetch_array($result);	
         		?>
         		<tr>
         			<td rowspan="2">
         				<?php
-                            if($rows['fileupload']!=''){
+                            if(!empty($rows['fileupload'])){
                         ?>
                                 <img src="../images/profile/<?=$rows['fileupload'];?>" class="profile-image img-rounded"  >
                         <?php

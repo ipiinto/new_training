@@ -1,29 +1,28 @@
 <?php
 	session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
-	$id=$_GET["id"];
-	if($id !=""){
-		$sql="select * from subject where sub_id=$id ";
-		$result=mysql_db_query($database,$sql);
-		$row=mysql_fetch_array($result);
-		
+  $action = 0;
+  if(!empty($_GET["id"])){
+	 $id=$_GET["id"];
+		$sql="SELECT * FROM subject WHERE sub_id = $id ";
+		$result=mysqli_query($dbcon,$sql);
+		$row=mysqli_fetch_array($result);
 		$sub_name=$row["sub_name"];
 		$price=$row["price"];
 		$time_sub=$row["time_sub"];
 		$detail=$row["detail"];
-	}
-	
-	$action=$_POST["action"];
-	if($action=="1"){
+	} else {
+    $sub_name="";
+    $price="";
+    $time_sub="";
+    $detail="";
+  }
+	if(!empty($_POST["action"]) && ($_POST["action"] == 1)){
+    $action=$_POST["action"];
 		$id=$_POST["id"];
 		$action=$_POST["action"];
 		$sub_name=$_POST["sub_name"];
@@ -54,7 +53,7 @@
 				$sql="insert into subject(sub_name , price , time_sub , detail ) ";
 				$sql=$sql . " values('$sub_name' , $price , '$time_sub' , '$detail')";
 			}
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			echo "<script language=\"javascript\">window.location.href = 'subject.php'</script>";
 			
 			exit();
@@ -66,15 +65,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $ribon ?></title>
-<link href="../style.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
+  <link href="../style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../jquery/jquery-ui.css" />
+  <script src="../jquery/jquery-2.1.3.js"></script>
+  <script src="../jquery/jquery-ui.js"></script>
   <link rel="stylesheet" href="/resources/demos/style.css" />
-
   <script>
 
   $(function() {
@@ -122,7 +117,7 @@
                     <?php
 					if($action=="1"){
 						if($sub_name==""){
-							echo "<br>กรุณากรอก <b>ชื่อรายวิชา</b> ด้วย";
+							echo "<br>กรุณากรอก <b>ชื่อรายวิชา</b>";
 						}
 					}
 				?>
@@ -135,7 +130,7 @@
                   <?php
 					if($action=="1"){
 						if($time_sub==""){
-							echo "<br>กรุณากรอก <b>จำนวนชั่วโมง</b> ด้วย";
+							echo "<br>กรุณากรอก <b>จำนวนชั่วโมง</b>";
 						}
 					}
 				?>
@@ -148,7 +143,7 @@
                     <?php
 					if($action=="1"){
 						if($price==""){
-							echo "<br>กรุณากรอก <b>ราคา</b> ด้วย";
+							echo "<br>กรุณากรอก <b>ราคา</b>";
 						}
 					}
 				?>
@@ -180,5 +175,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -68,15 +67,15 @@
               <td width="200" align="right">รายวิชา :</td>
               <td><?php
 			  	$sql="select sub_name from subject  where sub_id=$sub_id ";
-				$result=mysql_db_query($database,$sql);
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($dbcon,$sql);
+				$row=mysqli_fetch_array($result);
 				echo $row[0];
 			  ?></td>
             </tr>
             <?php
 				$sql="select * from section where sec_id=$sec_id ";
-				$result=mysql_db_query($database,$sql);
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($dbcon,$sql);
+				$row=mysqli_fetch_array($result);
 				$sec_name=$row["sec_name"];
 				$teacher_id=$row["teacher_id"];
 				$max_sec=$row["max_sec"];
@@ -99,8 +98,8 @@
               <td><select name="teacher" id="teacher">
               <?php
 			  	$sql="select teacher_id , name , surname from teacher  order by teacher_id ";
-				$result=mysql_db_query($database,$sql);
-				while($row=mysql_fetch_array($result)){
+				$result=mysqli_query($dbcon,$sql);
+				while($row=mysqli_fetch_array($result)){
 					echo "<option value='$row[0]' ";
 					if($row[0]==$teacher_id){
 						echo " selected='selected' ";
@@ -191,5 +190,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

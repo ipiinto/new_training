@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -16,7 +15,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="file:///C|/AppServ/www/training/style.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
@@ -31,12 +30,12 @@ function submitform(){
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? include "header.php"; ?>
+        <?php include "header.php"; ?>
       </tr>
     </table>      <a href="file:///C|/AppServ/www/training/index.php"></a></td>
   </tr>
   <tr>
-    <td height="46" valign="top" background="file:///C|/AppServ/www/training/images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" valign="top" background="file:///C|/AppServ/www/training/images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td height="400" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -45,7 +44,7 @@ function submitform(){
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top"><? include('member_menu.php') ?></td>
+        <td valign="top"><?php include('member_menu.php') ?></td>
         <td valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
             <td><strong>รายชื่ออาจารย์ผู้สอน</strong></td>
@@ -62,12 +61,12 @@ function submitform(){
             <p>
             <?php
       				$sql=$_POST["sql"];
-      				$result=mysql_db_query($database,$sql);
-      				while($row=mysql_fetch_array($result)){
+      				$result=mysqli_query($dbcon,$sql);
+      				while($row=mysqli_fetch_array($result)){
       					$ch=$_POST["ch$row[0]"];
       					if($ch==1){
       						$sql="delete from teacher where teacher_id=$row[0]";
-      						$result1=mysql_db_query($database,$sql);
+      						$result1=mysqli_query($dbcon,$sql);
       						echo $sql . "<br>";
       					}
       				}
@@ -92,5 +91,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

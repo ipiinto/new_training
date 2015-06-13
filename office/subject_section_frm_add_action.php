@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -79,15 +78,15 @@
 						
 						$sql="select * from section where day='$day' and since=$since";
 						$sql=$sql."and until=$until and room=$room and teacher=$teacher_id";
-						$result=mysql_db_query($database,$sql);
-						$nRow=mysql_num_rows($result);
+						$result=mysqli_query($dbcon,$sql);
+						$nRow=mysqli_num_rows($result);
 						if($since == $since && $until == $until && $teacher_id != $teacher_id && $room != $room){
 							echo "ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบข้อมูลใหม่";	
 						}else{
 						$sql="insert into section(sec_name , sub_id , teacher_id , max_sec , num_sec , sec_count , cos_id  , day , since, until , room) ";
 						$sql=$sql . " values('$sec_name' , $sub_id , $teacher_id , $max_sec  , 0, $i , $cos_id , '$day' , '$since' , '$until' , '$room')";
 						}
-						$result=mysql_db_query($database,$sql);
+						$result=mysqli_query($dbcon,$sql);
 						
 						
 					}
@@ -102,7 +101,7 @@
 					
 					$sql="update section set max_sec=$max_sec ,teacher_id=$teacher_id , day=$day , since=$since ,  until=$until , room=$room";
 					$sql=$sql." where sec_id=$sec_id ";
-					$result=mysql_db_query($database,$sql);
+					$result=mysqli_query($dbcon,$sql);
 					
 					
 					
@@ -133,5 +132,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

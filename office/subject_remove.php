@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -56,7 +55,7 @@
 				$id=$_GET["id"];
 				
 				$sql="delete from course_item where cos_id =$cos_id and sub_id=$id ";
-				$result1=mysql_db_query($database,$sql);
+				$result1=mysqli_query($dbcon,$sql);
 				
 				echo "<script language=\"javascript\">window.location.href = 'course.php'</script>";
 			?>
@@ -79,5 +78,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

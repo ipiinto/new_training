@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -68,8 +67,8 @@
               <td>
               <?php
 			  	$sql="select sub_name from subject  where sub_id=$sub_id ";
-				$result=mysql_db_query($database,$sql);
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($dbcon,$sql);
+				$row=mysqli_fetch_array($result);
 				echo $row[0];
 			  ?>
               </td>
@@ -97,5 +96,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

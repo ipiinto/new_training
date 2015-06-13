@@ -3,7 +3,7 @@
     
     include('../config/config.php');
     mysql_connect($host,$hostuser,$hostpass);
-    mysql_query("SET NAMES UTF8");
+    mysqli_query("SET NAMES UTF8");
     
     if($_SESSION["login"]==""){
         echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -73,8 +73,8 @@
             <ul class="nav navbar-right">
             <?php
               $sql="select * from office where username='".$_SESSION['login']."'";
-              $result=mysql_db_query($database,$sql);
-              $rows=mysql_fetch_array($result);
+              $result=mysqli_query($dbcon,$sql);
+              $rows=mysqli_fetch_array($result);
             ?>
             <li class="dropdown" style="margin-top:1px" style="margin-right:15px">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">

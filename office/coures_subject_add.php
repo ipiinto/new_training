@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -16,7 +15,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
@@ -57,7 +56,7 @@
     <?php include '../office/header.php'?>
   </tr>
   <tr>
-    <td height="46" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -78,16 +77,16 @@
             <?php
       				$i=1;
       				$sql="select sub_id , sub_name from subject  order by sub_id ";
-      				$result=mysql_db_query($database,$sql);
-      				while($row=mysql_fetch_array($result)){
+      				$result=mysqli_query($dbcon,$sql);
+      				while($row=mysqli_fetch_array($result)){
             ?>
             <tr>
               <td bgcolor="#FFFFFF"><div align="center">
-                <input name="ch_<? echo $i ?>" type="checkbox" id="ch_<? echo $i ?>" value="1" 
-            <?
+                <input name="ch_<?php echo $i ?>" type="checkbox" id="ch_<?php echo $i ?>" value="1" 
+            <?php
         					$sql="select * from course_item where cos_id=$cos_id and sub_id=$row[0] ";
-        					$result_ch=mysql_db_query($database,$sql);
-        					$nRow=mysql_num_rows($result_ch);
+        					$result_ch=mysqli_query($dbcon,$sql);
+        					$nRow=mysqli_num_rows($result_ch);
         					if($nRow !=0){
         					echo " checked='checked'";
       				}
@@ -95,9 +94,9 @@
                  />
               </div>
               </td>
-              <td bgcolor="#FFFFFF"><? echo $row[1] ?></td>
+              <td bgcolor="#FFFFFF"><?php echo $row[1] ?></td>
             </tr>
-            <?
+            <?php
         				$i++;
         			}
       			?>
@@ -105,7 +104,7 @@
               <td>&nbsp;</td>
               <td bgcolor="#5F7AC3">
               	<input type="submit" name="button" id="button" value="บันทึก" />
-                <input name="cos_id" type="hidden" id="cos_id" value="<? echo $cos_id ?>" /></td>
+                <input name="cos_id" type="hidden" id="cos_id" value="<?php echo $cos_id ?>" /></td>
             </tr>
           </table>
 		    </form>
@@ -120,5 +119,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

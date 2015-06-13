@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -86,8 +85,8 @@ function DelSec(cos_id , id){
                   </tr>
                   <?php
 				  	$sql="select cos_id , cos_name from course where cos_id=$cos_id ";
-					$result=mysql_db_query($database,$sql);
-					$nRow=mysql_num_rows($result);
+					$result=mysqli_query($dbcon,$sql);
+					$nRow=mysqli_num_rows($result);
 					$tr=$nRow%$list_page;
 					if($rt!=0) { 
 						$totalpage = floor($nRow/$list_page)+1; 
@@ -96,8 +95,8 @@ function DelSec(cos_id , id){
 					}
 					$goto = ($page-1)*$list_page;
 					$sql=$sql . " limit $goto,$list_page";
-					$result=mysql_db_query($database,$sql);
-					while($row=mysql_fetch_array($result)){
+					$result=mysqli_query($dbcon,$sql);
+					while($row=mysqli_fetch_array($result)){
 				  ?>
                 <tr>
                   <td bgcolor="#FFFFFF"><b><?php echo $row[1] ?></b>&nbsp;(<a href="discount.php?cos_id=<?php echo $row[0] ?>">ส่วนลด</a>)</td>
@@ -113,16 +112,16 @@ function DelSec(cos_id , id){
 				  	$sql="select subject.sub_id , subject.sub_name , subject.time_sub from subject , course_item  ";
 					$sql=$sql . " where course_item.cos_id = $row[0] and subject.sub_id = course_item.sub_id";
 					$sql=$sql . " order by course_item.autoid ";
-					$result_sub=mysql_db_query($database,$sql);
-					while($row_sub=mysql_fetch_array($result_sub)){
+					$result_sub=mysqli_query($dbcon,$sql);
+					while($row_sub=mysqli_fetch_array($result_sub)){
 				  ?>
                    <tr>
                   <td bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;<?php echo $row_sub[1] ?>&nbsp;&nbsp;( จำนวน <?php echo $row_sub[2] ?> ชั่วโมง )<br />
                   <?php
 				  		$sql="select sec_id , sec_name from section where sub_id= $row_sub[0] and cos_id=$row[0] ";
 						$sql=$sql . " order by sec_id ";
-						$result_sec=mysql_db_query($database,$sql);
-						while($row_sec=mysql_fetch_array($result_sec)){
+						$result_sec=mysqli_query($dbcon,$sql);
+						while($row_sec=mysqli_fetch_array($result_sec)){
 							echo "<a href='subject_section_frm_edit.php?sec_id=$row_sec[0]&sub_id=$row_sub[0]&cos_id=$row[0]'>sec.$row_sec[1]</a> ";
 							echo "<a href='javascript:DelSec($row[0] , $row_sec[0])'><img src='../images/edit_remove.png' border='0' /></a>  | ";
 						}
@@ -188,5 +187,5 @@ function DelSec(cos_id , id){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

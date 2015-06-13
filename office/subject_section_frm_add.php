@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -68,8 +67,8 @@
               <td width="200" align="right">รายวิชา :</td>
               <td><?php
 			  	$sql="select sub_name from subject  where sub_id=$sub_id ";
-				$result=mysql_db_query($database,$sql);
-				$row=mysql_fetch_array($result);
+				$result=mysqli_query($dbcon,$sql);
+				$row=mysqli_fetch_array($result);
 				echo $row[0];
 			  ?></td>
             </tr>
@@ -84,13 +83,13 @@
 					$sql=$sql . "  and cos_id=$cos_id ";
 				}
 				$sql=$sql . " order by sec_count desc ";
-				$result=mysql_db_query($database,$sql);
-				$nRow=mysql_num_rows($result);
+				$result=mysqli_query($dbcon,$sql);
+				$nRow=mysqli_num_rows($result);
 				if($nRow==0){
 					$start=1;
 					$end=1;
 				}else{
-					$row=mysql_fetch_array($result);
+					$row=mysqli_fetch_array($result);
 					$start=$row[0]+1;
 					$end=$row[0]+1;
 				}
@@ -112,8 +111,8 @@
               <td><select name="teacher<?php echo $end ?>" id="teacher<?php echo $end ?>">
               <?php
 			  	$sql="select teacher_id , name , surname from teacher  order by teacher_id ";
-				$result=mysql_db_query($database,$sql);
-				while($row=mysql_fetch_array($result)){
+				$result=mysqli_query($dbcon,$sql);
+				while($row=mysqli_fetch_array($result)){
 					echo "<option value='$row[0]'>$row[1]</option>";
 				}
 			  ?>
@@ -207,5 +206,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

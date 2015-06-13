@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -29,8 +28,8 @@
 		$birthday="$y-$m-$d";
 	}else{
 		$sql="select * from member where member_id=".$_SESSION['id'];
-		$result=mysql_db_query($database,$sql);
-		$rows=mysql_fetch_array($result);
+		$result=mysqli_query($dbcon,$sql);
+		$rows=mysqli_fetch_array($result);
 		$username=$rows["username"];
 		$name=$rows["name"];
 		$surname=$rows["surname"];
@@ -51,7 +50,7 @@
 		if($name !="" and $surname !="" and $nickname !="" and $email !="" and $gender !="" and $telephone !="" and $address !="" and $parents_name !="" and $parents_tel !=""){
 			$sql="update member set name='$name' , surname='$surname' , nickname='$nickname' , email='$email' , gender='$gender' , telephone='$telephone' , address='$address' , parents_name='$parents_name' , parents_tel='$parents_tel ' ";
 				$sql=$sql . " where member_id=".$_SESSION["id"];
-				$result=mysql_db_query($database,$sql);
+				$result=mysqli_query($dbcon,$sql);
 				echo "<script language=\"javascript\">window.location.href = 'index.php'</script>";
 				exit();
 		}
@@ -234,5 +233,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

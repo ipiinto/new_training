@@ -2,8 +2,7 @@
   	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -21,17 +20,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon; ?></title>
+<title><?php echo $ribon; ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <table width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <? include "../office/header.php";?>
+    <?php include "../office/header.php";?>
   </tr>
   <tr>
-    <td height="46" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -49,7 +48,7 @@
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="10" valign="top">&nbsp;</td>
-        <td width="250" valign="top"><? include('member_menu.php') ?></td>
+        <td width="250" valign="top"><?php include('member_menu.php') ?></td>
         <td width="5" valign="top">&nbsp;</td>
         <td width="759" valign="top">
 
@@ -64,7 +63,7 @@
 				<td align="center"><p>กำลังอัปโหลด<br />
 					กรุณารอสักครู่..........</p>
                   <p>
-				<?
+				<?php
 					$action=$_POST["action"];
 					if($action=="1"){
 						$id=$_POST["id"];
@@ -128,7 +127,7 @@
 								echo "There was an error uploading the file, please try again!";
 							}
 						}
-							$result=mysql_db_query($database,$sql);
+							$result=mysqli_query($dbcon,$sql);
 							echo "<script language=\"javascript\">window.location.href = 'news_frm.php'</script>";
 							exit();
 							}
@@ -149,6 +148,6 @@
 </table>
 </body>
 </html>
-<?
-	mysql_close();
+<?php
+	mysqli_close($dbcon);
 ?>

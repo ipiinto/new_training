@@ -2,8 +2,7 @@
   	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -13,8 +12,8 @@
 	$id=$_GET["id"];
 	if($id !=""){
 		$sql="select * from teacher where teacher_id=$id ";
-		$result=mysql_db_query($database,$sql);
-		$row=mysql_fetch_array($result);
+		$result=mysqli_query($dbcon,$sql);
+		$row=mysqli_fetch_array($result);
 		
 		$username=$row["username"];
 		$pass=$row["pass"];
@@ -93,7 +92,7 @@
 				$sql="insert into teacher(username , pass , name , surname ,nickname , email , telephone , gender , address , birthday  )";
 			$sql=$sql . " values('$username' , '$pass' , '$name' , '$surname' ,'$nickname' , '$email' , '$telephone' , '$gender' , '$address' , '$birthday' )";
 			}
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			echo "<script language=\"javascript\">window.location.href = 'teacher.php'</script>";
 			
 			exit();
@@ -127,7 +126,7 @@ function submitform(){
 <body>
 <table width="1024" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" >
   <tr>
-    <? include '../office/header.php'?>
+    <?php include '../office/header.php'?>
   </tr>
   <tr>
     <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
@@ -229,13 +228,13 @@ function submitform(){
                 </tr>
                 <tr>
 					<td align="right">ชื่อเล่น :</td>
-					<td><input name="nickname" type="text" id="nickname" value="<? echo $nickname ?>" placeholder="ชื่อผู้ใช้" /></td>
+					<td><input name="nickname" type="text" id="nickname" value="<?php echo $nickname ?>" placeholder="ชื่อผู้ใช้" /></td>
                 </tr>
                 <tr>
 					<td align="right">เพศ :</td>
-					<td><input name="gender" type="radio" id="radio" value="0" <? if($gender==0) echo " checked='checked'"; ?> />
+					<td><input name="gender" type="radio" id="radio" value="0" <?php if($gender==0) echo " checked='checked'"; ?> />
                     ผู้ชาย
-                    <input type="radio" name="gender" id="radio2" value="1" <? if($gender==1) echo " checked='checked'"; ?>/>
+                    <input type="radio" name="gender" id="radio2" value="1" <?php if($gender==1) echo " checked='checked'"; ?>/>
                     ผู้หญิง</td>
                 </tr>
                 <tr>
@@ -253,18 +252,18 @@ function submitform(){
 					  		?>
 						</select>
                     <select name="m" id="m">
-						<option value="1" <? if($m==1) echo "selected='selected'"; ?>>มกราคม</option>
-						<option value="2" <? if($m==2) echo "selected='selected'"; ?>>กุมภาพันธ์</option>
-						<option value="3" <? if($m==3) echo "selected='selected'"; ?>>มีนาคม</option>
-						<option value="4" <? if($m==4) echo "selected='selected'"; ?>>เมษายน</option>
-						<option value="5" <? if($m==5) echo "selected='selected'"; ?>>พฤษภาคม</option>
-						<option value="6" <? if($m==6) echo "selected='selected'"; ?>>มิถุนายน</option>
-						<option value="7" <? if($m==7) echo "selected='selected'"; ?>>กรกฎาคม</option>
-						<option value="8" <? if($m==8) echo "selected='selected'"; ?>>สิงหาคม</option>
-						<option value="9" <? if($m==9) echo "selected='selected'"; ?>>กันยายน</option>
-						<option value="10" <? if($m==10) echo "selected='selected'"; ?>>ตุลาคม</option>
-						<option value="11" <? if($m==11) echo "selected='selected'"; ?>>พฤศจิกายน</option>
-						<option value="12" <? if($m==12) echo "selected='selected'"; ?>>ธันวาคม</option>
+						<option value="1" <?php if($m==1) echo "selected='selected'"; ?>>มกราคม</option>
+						<option value="2" <?php if($m==2) echo "selected='selected'"; ?>>กุมภาพันธ์</option>
+						<option value="3" <?php if($m==3) echo "selected='selected'"; ?>>มีนาคม</option>
+						<option value="4" <?php if($m==4) echo "selected='selected'"; ?>>เมษายน</option>
+						<option value="5" <?php if($m==5) echo "selected='selected'"; ?>>พฤษภาคม</option>
+						<option value="6" <?php if($m==6) echo "selected='selected'"; ?>>มิถุนายน</option>
+						<option value="7" <?php if($m==7) echo "selected='selected'"; ?>>กรกฎาคม</option>
+						<option value="8" <?php if($m==8) echo "selected='selected'"; ?>>สิงหาคม</option>
+						<option value="9" <?php if($m==9) echo "selected='selected'"; ?>>กันยายน</option>
+						<option value="10" <?php if($m==10) echo "selected='selected'"; ?>>ตุลาคม</option>
+						<option value="11" <?php if($m==11) echo "selected='selected'"; ?>>พฤศจิกายน</option>
+						<option value="12" <?php if($m==12) echo "selected='selected'"; ?>>ธันวาคม</option>
 					</select>
                     <select name="y" id="y">
 					<?php
@@ -331,5 +330,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

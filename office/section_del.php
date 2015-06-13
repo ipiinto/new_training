@@ -1,9 +1,8 @@
-<?
+<?php
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -16,7 +15,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -27,7 +26,7 @@
     <?php include '../office/header.php'?>
   </tr>
   <tr>
-    <td height="46" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -36,7 +35,7 @@
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="10" valign="top">&nbsp;</td>
-        <td width="250" valign="top"><? include('course_menu.php') ?></td>
+        <td width="250" valign="top"><?php include('course_menu.php') ?></td>
         <td width="5" valign="top">&nbsp;</td>
         <td valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
@@ -56,7 +55,7 @@
           				$cos_id=$_GET["cos_id"];
           				
           				$sql="delete from section  where sec_id =$sec_id ";
-          				$result1=mysql_db_query($database,$sql);
+          				$result1=mysqli_query($dbcon,$sql);
           						
           				if($cos_id !=""){
           					echo "<script language=\"javascript\">window.location.href = 'course.php'</script>";
@@ -83,5 +82,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

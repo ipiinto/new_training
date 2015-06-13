@@ -3,7 +3,7 @@
 	$host = "localhost";
     $db_name = "new_training";
     $db_username = "root";
-    $db_password = "1234";
+    $db_password = "tua878faeff";
     $dbcon = @mysqli_connect($host, $db_username, $db_password);
     $list_page = 25;
     $ribon="ระบบจัดการสถาบันกวดวิชา | Academic Management System";

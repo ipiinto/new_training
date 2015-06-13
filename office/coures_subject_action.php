@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -27,7 +26,7 @@
     <?php include('../office/header.php') ?>
   </tr>
   <tr>
-    <td height="46" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
@@ -55,16 +54,16 @@
 					$cos_id=$_POST["cos_id"];
 					
 					$sql="delete from course_item where cos_id=$cos_id ";
-					$result=mysql_db_query($database,$sql);
+					$result=mysqli_query($dbcon,$sql);
 					
 					$i=1;
 					$sql="select sub_id , sub_name from subject  order by sub_id ";
-					$result=mysql_db_query($database,$sql);
-					while($row=mysql_fetch_array($result)){
+					$result=mysqli_query($dbcon,$sql);
+					while($row=mysqli_fetch_array($result)){
 						$ch=$_POST["ch_$i"];
 						if($ch==1){
 							$sql="insert into course_item(cos_id , sub_id ) values($cos_id , $row[0])";
-							$result_add=mysql_db_query($database,$sql);
+							$result_add=mysqli_query($dbcon,$sql);
 						}
 						$i++;
 						
@@ -73,8 +72,8 @@
 					//คำนวณราคา
 					$sql="select sum(subject.price) from subject , course_item ";
 					$sql=$sql . " where course_item.sub_id=subject.sub_id and course_item.cos_id=$cos_id ";
-					$result=mysql_db_query($database,$sql);
-					$row=mysql_fetch_array($result);
+					$result=mysqli_query($dbcon,$sql);
+					$row=mysqli_fetch_array($result);
 					if($row[0]==""){
 						$price=0;
 					}else{
@@ -82,7 +81,7 @@
 					}
 				
 				$sql="update course set price=$price where cos_id=$cos_id ";
-				$result=mysql_db_query($database,$sql);
+				$result=mysqli_query($dbcon,$sql);
 				echo "<script language=\"javascript\">window.location.href = 'course.php'</script>";
 			?>
               </p>
@@ -105,5 +104,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

@@ -2,8 +2,7 @@
 	session_start();
 
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -13,8 +12,8 @@
 	$id=$_GET["id"];
 	if($id !=""){
 		$sql="select * from news where news_id=$id ";
-		$result=mysql_db_query($database,$sql);
-		$row=mysql_fetch_array($result);
+		$result=mysqli_query($dbcon,$sql);
+		$row=mysqli_fetch_array($result);
 
 		$title_news=$row["title_news"];
 		$content=$row["content"];
@@ -57,7 +56,7 @@
     				echo "There was an error uploading the file, please try again!";
 				}
 			}
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			echo "<script language=\"javascript\">window.location.href = 'news_frm.php'</script>";
 
 			exit();
@@ -188,8 +187,8 @@ function submitform(){
 												if($find !=""){
 													$sql=$sql . " where $opt like '%$find%' order by $opt";
 												}
-												$result=mysql_db_query($database,$sql);
-												$nRow=mysql_num_rows($result);
+												$result=mysqli_query($dbcon,$sql);
+												$nRow=mysqli_num_rows($result);
 												$tr=$nRow%$list_page;
 												if($rt!=0) { 
 													$totalpage = floor($nRow/$list_page)+1; 
@@ -198,8 +197,8 @@ function submitform(){
 												}
 												$goto = ($page-1)*$list_page;
 												$sql=$sql . " limit $goto,$list_page";
-												$result=mysql_db_query($database,$sql);
-												while($row=mysql_fetch_array($result)){
+												$result=mysqli_query($dbcon,$sql);
+												while($row=mysqli_fetch_array($result)){
 											?>
 		            								<tr>
 														<td width="20" bgcolor="#FFFFFF"><input name="ch<?php echo $row[0] ?>" type="checkbox" id="ch<?php echo $row[0] ?>" value="1" /></td>
@@ -279,7 +278,7 @@ function submitform(){
            	          			</tr>
                	      			<tr>
                	        			<td width="15%" align="right">หัวข้อข่าว :</td>
-               	        			<td width="85%"><input name="title_news" type="text" autofocus="autofocus" id="title_news" placeholder="หัวข้อข่าว" value="<? echo $title_news ?>" size="70" /></td>
+               	        			<td width="85%"><input name="title_news" type="text" autofocus="autofocus" id="title_news" placeholder="หัวข้อข่าว" value="<?php echo $title_news ?>" size="70" /></td>
            	          			</tr>
                       			<tr>
                       				<td width="15%" align="right" valign="top">ประเภทข่าว :</td>
@@ -325,5 +324,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

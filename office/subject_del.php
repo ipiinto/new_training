@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -53,15 +52,15 @@
               <p>
                 <?php
 				$sql=$_POST["sql"];
-				$result=mysql_db_query($database,$sql);
-				while($row=mysql_fetch_array($result)){
+				$result=mysqli_query($dbcon,$sql);
+				while($row=mysqli_fetch_array($result)){
 					$ch=$_POST["ch$row[0]"];
 					if($ch==1){
 						$sql="delete from subject where sub_id=$row[0]";
-						$result1=mysql_db_query($database,$sql);
+						$result1=mysqli_query($dbcon,$sql);
 						
 						$sql="delete from section where sub_id=$row[0]";
-						$result1=mysql_db_query($database,$sql);
+						$result1=mysqli_query($dbcon,$sql);
 					}
 				}
 				echo "<script language=\"javascript\">window.location.href = 'subject.php'</script>";
@@ -85,5 +84,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

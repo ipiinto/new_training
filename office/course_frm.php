@@ -1,20 +1,16 @@
 <?php
 	session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
-	$cos_id=$_GET["cos_id"];
-	if($cos_id !=""){
-		$sql="select * from course where cos_id =$cos_id ";
-		$result=mysql_db_query($database,$sql);
-		$row=mysql_fetch_array($result);
+  $action = 0;
+	if(!empty($_GET["cos_id"])){
+    $cos_id=$_GET["cos_id"];
+		$sql="SELECT * FROM course WHERE cos_id = $cos_id ";
+		$result=mysqli_query($dbcon,$sql);
+		$row=mysqli_fetch_array($result);
 		$cos_name=$row["cos_name"];
 		$cos_max=$row["cos_max"];
 		$detail=$row["detail"];
@@ -22,10 +18,17 @@
 		$end_day=$row["end_day"];
 		$begin_reg=$row["begin_reg"];
 		$end_reg=$row["end_reg"];
-	}
-	
-	$action=$_POST["action"];
-	if($action =="1"){
+	} else {
+    $cos_name="";
+    $cos_max="";
+    $detail="";
+    $begin_day="";
+    $end_day="";
+    $begin_reg="";
+    $end_reg="";
+  }
+	if(!empty($_POST["action"]) && ($_POST["action"] == 1)){
+    $action=$_POST["action"];
 		$cos_id=$_POST["cos_id"];
 		$cos_name=$_POST["cos_name"];
 		$cos_max=$_POST["cos_max"];
@@ -61,14 +64,14 @@
 		//เริ่มบันทึกข้อมูล
 		if($save==1){
 			if($cos_id !=""){
-				$sql=" update course set cos_name='$cos_name',cos_max='$cos_max', detail='$detail' ";
+				$sql=" UPDATE course SET cos_name='$cos_name',cos_max='$cos_max', detail='$detail' ";
 				$sql=$sql . ",begin_day='$begin_day',end_day='$end_day',begin_reg='$begin_reg',end_reg='$end_reg'";
-				$sql=$sql . " where cos_id=$cos_id ";
-				$result=mysql_db_query($database,$sql);
+				$sql=$sql . " WHERE cos_id=$cos_id ";
+				$result=mysqli_query($dbcon,$sql);
 			}else{
-				$sql="insert into course(cos_name,cos_max,num_sec,price,detail,begin_day,end_day,begin_reg,end_reg) ";
-				$sql=$sql . " values ('$cos_name',$cos_max,0,0,'$detail','$begin_day', '$end_day','$begin_reg','$end_reg')";
-				$result=mysql_db_query($database,$sql);
+				$sql="INSERT INTO course(cos_name,cos_max,num_sec,price,detail,begin_day,end_day,begin_reg,end_reg) ";
+				$sql=$sql . " VALUES ('$cos_name',$cos_max,0,0,'$detail','$begin_day', '$end_day','$begin_reg','$end_reg')";
+				$result=mysqli_query($dbcon,$sql);
 			}
 			echo "<script language=\"javascript\">window.location.href = 'course.php'</script>";
 			exit();
@@ -80,13 +83,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $ribon ?></title>
-<link href="../style.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
+  <link href="../style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../jquery/jquery-ui.css" />
+  <script src="../jquery/jquery-2.1.3.js"></script>
+  <script src="../jquery/jquery-ui.js"></script>
   <link rel="stylesheet" href="/resources/demos/style.css" />
 
   <script>
@@ -140,10 +140,10 @@ $(function() {
               <td align="right">หลักสูตร :</td>
               <td><input name="cos_name" type="text" id="cos_name" placeholder="ชื่อหลักสูตร" value="<?php echo $cos_name ?>" size="50" />
               <span class="t10r">*
-                    <?php
+          <?php
 						if($action=="1"){
 							if($cos_name == ""){
-								echo "<br>กรุณากรอก <b>ชื่อหลักสูตร</b> ด้วย";
+								echo "<br>กรุณากรอก <b>ชื่อหลักสูตร</b>";
 							}
 						}
 					?>
@@ -157,10 +157,10 @@ $(function() {
               </span>ถึง<span class="t10r">
               <input name="end_day" type="text" id="end_day" value="<?php echo $end_day ?>" placeholder="ถึง" />
               * 
-                      <?php
+          <?php
 						if($action=="1"){
 							if($begin_day == "" or $end_day==""){
-								echo "<br>กรุณากรอก <b>วันที่ด้วย</b> ด้วย";
+								echo "<br>กรุณากรอก <b>วันที่ด้วย</b>";
 							}
 						}
 					?>
@@ -174,10 +174,10 @@ $(function() {
               </span>ถึง<span class="t10r">
               <input name="end_reg" type="text" id="end_reg" value="<?php echo $end_reg ?>" placeholder="ถึง"/>
               * 
-                      <?php
+          <?php
 						if($action=="1"){
 							if($begin_reg==" " or $end_reg==" "){
-								echo "<br>กรุณากรอก <b>วันที่ด้วย</b> ด้วย";
+								echo "<br>กรุณากรอก <b>วันที่ด้วย</b>";
 							}
 						}
 					?>
@@ -188,10 +188,10 @@ $(function() {
               <td><input name="cos_max" type="text" id="cos_max" value="<?php echo $cos_max ?>" size="10" placeholder="จำนวน"/> 
                 คน
                 <span class="t10r">*
-                    <?php
+          <?php
 						if($action=="1"){
-							if($cos_name == ""){
-								echo "<br>กรุณากรอก <b>จำนวนที่รับได้</b> ด้วย";
+							if($cos_max == ""){
+								echo "<br>กรุณากรอก <b>จำนวนที่รับได้</b>";
 							}
 						}
 					?>
@@ -221,5 +221,5 @@ $(function() {
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

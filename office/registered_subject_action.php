@@ -1,9 +1,8 @@
-<?
+<?php
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -19,7 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -47,7 +46,7 @@
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="10" valign="top">&nbsp;</td>
-        <td width="250" valign="top"><? include('member_menu.php') ?></td>
+        <td width="250" valign="top"><?php include('member_menu.php') ?></td>
         <td width="5" valign="top">&nbsp;</td>
         <td valign="top">
         <table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -66,7 +65,7 @@
 				$id=$_GET['id']; 
 				
 				$sql="update learn set approve=1 where autoid = $id";
-				$result=mysql_db_query($database,$sql);
+				$result=mysqli_query($dbcon,$sql);
 				echo $sql;
 				if($page=="1"){
 					echo "<script language=\"javascript\">window.location.href = 'student_learn.php?member_id=$member_id'</script>";
@@ -97,5 +96,5 @@
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

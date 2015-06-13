@@ -2,8 +2,7 @@
 	session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -19,7 +18,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -93,8 +92,8 @@ function DelSec(cos_id , id){
 								            </thead>
 								              <?php
 											  	$sql="select distinct member_id from learn where approve=0 order by member_id ";
-												$result=mysql_db_query($database,$sql);
-												$nRow=mysql_num_rows($result);
+												$result=mysqli_query($dbcon,$sql);
+												$nRow=mysqli_num_rows($result);
 												$tr=$nRow%$list_page;
 												if($rt!=0) { 
 													$totalpage = floor($nRow/$list_page)+1; 
@@ -103,16 +102,16 @@ function DelSec(cos_id , id){
 												}
 												$goto = ($page-1)*$list_page;
 												$sql=$sql . " limit $goto,$list_page";
-												$result=mysql_db_query($database,$sql);
-												while($row=mysql_fetch_array($result)){
+												$result=mysqli_query($dbcon,$sql);
+												while($row=mysqli_fetch_array($result)){
 													$sql="select name , surname from member where member_id=$row[0] ";
-													$result_member=mysql_db_query($database,$sql);
-													$row_member=mysql_fetch_array($result_member);
+													$result_member=mysqli_query($dbcon,$sql);
+													$row_member=mysqli_fetch_array($result_member);
 											  ?>
 											  	<thead>
 				              						<tr>
-										                <th bgcolor="#FFFFFF"><strong><? echo $row_member[0] ?>&nbsp;&nbsp;
-										                <? echo $row_member[1] ?></strong></th>
+										                <th bgcolor="#FFFFFF"><strong><?php echo $row_member[0] ?>&nbsp;&nbsp;
+										                <?php echo $row_member[1] ?></strong></th>
 				              						</tr>
 				              					</thead>
 								                <?php
@@ -120,13 +119,13 @@ function DelSec(cos_id , id){
 													$sql="select  distinct learn.cos_id ,  course.cos_name , learn.day_reg , learn.time_reg  from learn , course ";
 													$sql=$sql . " where learn.cos_id = course.cos_id and learn.member_id=$row[0] ";
 													$sql=$sql . " and learn.approve = 0 ";
-													$result_course=mysql_db_query($database,$sql);
-													while($row_course=mysql_fetch_array($result_course)){
+													$result_course=mysqli_query($dbcon,$sql);
+													while($row_course=mysqli_fetch_array($result_course)){
 											    ?>
 								              	<tr>
-									                <td bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>หลักสูตร :</strong> <? echo $row_course[1] ?> <br />
-									                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style3">ลงทะเบียนเมื่อ : <font color="#336600"><? echo $row_course[2] ?> &nbsp;&nbsp;<? echo $row_course[3] ?></font></span></td>
-									                <td align="center" bgcolor="#FFFFFF" rowspan="2"><a href="registered_course_action.php?cos_id=<? echo  $row_course[0] ?>&member_id=<? echo $row[0] ?>"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a></td>
+									                <td bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>หลักสูตร :</strong> <?php echo $row_course[1] ?> <br />
+									                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style3">ลงทะเบียนเมื่อ : <font color="#336600"><?php echo $row_course[2] ?> &nbsp;&nbsp;<?php echo $row_course[3] ?></font></span></td>
+									                <td align="center" bgcolor="#FFFFFF" rowspan="2"><a href="registered_course_action.php?cos_id=<?php echo  $row_course[0] ?>&member_id=<?php echo $row[0] ?>"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a></td>
 									            </tr>
 			              <?php
 						  		}
@@ -134,13 +133,13 @@ function DelSec(cos_id , id){
 								//รายวิชา
 								$sql="select learn.autoid , learn.sub_id , subject.sub_name , learn.day_reg , learn.time_reg from learn , subject ";
 								$sql=$sql . " where learn.sub_id = subject.sub_id and learn.member_id=$row[0] and learn.cos_id=0 and learn.approve=0 ";
-								$result_subject=mysql_db_query($database,$sql);
-								while($row_subject=mysql_fetch_array($result_subject)){
+								$result_subject=mysqli_query($dbcon,$sql);
+								while($row_subject=mysqli_fetch_array($result_subject)){
 						  ?>
 			              <tr>
-			                <td bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>วิชา : </strong> <? echo $row_subject[2] ?><br />
-			                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style3">ลงทะเบียนเมื่อ : <font color="#336600"><? echo $row_subject[3] ?> &nbsp;&nbsp;<? echo $row_subject[4] ?></font></span></td>
-			                <td align="center" bgcolor="#FFFFFF"><a href="registered_subject_action.php?id=<? echo  $row_subject[0] ?>">อนุมัติ</a></td>
+			                <td bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>วิชา : </strong> <?php echo $row_subject[2] ?><br />
+			                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style3">ลงทะเบียนเมื่อ : <font color="#336600"><?php echo $row_subject[3] ?> &nbsp;&nbsp;<?php echo $row_subject[4] ?></font></span></td>
+			                <td align="center" bgcolor="#FFFFFF"><a href="registered_subject_action.php?id=<?php echo  $row_subject[0] ?>">อนุมัติ</a></td>
 			              </tr>
 			              <?php
 								}
@@ -204,5 +203,5 @@ function DelSec(cos_id , id){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

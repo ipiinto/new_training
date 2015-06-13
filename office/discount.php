@@ -1,8 +1,7 @@
 <?php
   session_start();	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -13,8 +12,8 @@
 	$cos_id=$_GET["cos_id"];
 	if($cos_id != ""){
 		$sql="select cos_name from course where cos_id=$cos_id";
-		$result=mysql_db_query($database,$sql);
-		$row=mysql_fetch_array($result);
+		$result=mysqli_query($dbcon,$sql);
+		$row=mysqli_fetch_array($result);
 		$cos_name=$row[0];
 	}
 	
@@ -32,7 +31,7 @@
 		//เริ่มบันทึกข้อมูล
 		if($save==1){
 			$sql=" update course set discount='$sale' where cos_id=$cos_id ";
-			$result=mysql_db_query($database,$sql);
+			$result=mysqli_query($dbcon,$sql);
 			echo "<script language=\"javascript\">window.location.href = 'course.php'</script>";
 			exit();
 		}
@@ -163,5 +162,5 @@ function DelSec(cos_id , id){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

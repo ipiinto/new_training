@@ -1,19 +1,22 @@
 <?php
   session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
-	$page=$_GET["page"];
-	if (empty($page)){
-		$page=1;
-	}
+	$opt='';
+  $find='';
+  if (empty($page)){
+    $page=1;
+  } else {
+    $page=$_GET["page"];
+  }
+  if (empty($opt)){
+    $opt='';
+  } else {
+    $opt=$_GET["opt"];
+  }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -105,18 +108,18 @@ function submitform(){
             						if($find !=""){
             							$sql=$sql . " where $opt like '%$find%' order by $opt";
             						}
-              						$result=mysql_db_query($database,$sql);
-              						$nRow=mysql_num_rows($result);
+              						$result=mysqli_query($dbcon,$sql);
+              						$nRow=mysqli_num_rows($result);
               						$tr=$nRow%$list_page;
-              						if($rt!=0) { 
+              						if($tr!=0) { 
               							$totalpage = floor($nRow/$list_page)+1; 
               						}else {
               							$totalpage = floor($nRow/$list_page)+1; 
               						}
               						$goto = ($page-1)*$list_page;
               						$sql=$sql . " limit $goto,$list_page";
-              						$result=mysql_db_query($database,$sql);
-            						while($row=mysql_fetch_array($result)){
+              						$result=mysqli_query($dbcon,$sql);
+            						while($row=mysqli_fetch_array($result)){
                       ?>
                           <tr>
                             <td width="20"><input name="ch<?php echo $row[0] ?>" type="checkbox" id="ch<?php echo $row[0] ?>" value="1" /></td>
@@ -182,5 +185,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

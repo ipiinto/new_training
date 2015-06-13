@@ -1,25 +1,21 @@
 <?php
 	session_start();
-	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
-	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
 		exit();
 	}
-	
-	$page=$_GET["page"];
 	if (empty($page)){
 		$page=1;
-	}
+	} else {
+    $page=$_GET["page"];
+  }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><? echo $ribon ?></title>
+<title><?php echo $ribon ?></title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="../bootstrap-3.2.0-dist/css/bootstrap.css">
 <style type="text/css">
@@ -57,7 +53,7 @@ function DelSec(cos_id , id){
 <body>
 <table width="1024" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
   <tr>
-    <?php include '../office/header.php'?>
+    <?php include '../office/header.php' ?>
   </tr>
   <tr>
     <td height="46" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
@@ -81,48 +77,48 @@ function DelSec(cos_id , id){
 	                  <th width="100" align="center" bgcolor="#5F7AC3"><a href="subject_frm.php">เปิดวิชาใหม่</a></th>
 	                </tr>
 	            </thead>
-                <?php
-				  	$sql="select cos_id , cos_name , price ,discount from course order by cos_id ";
-					$result=mysql_db_query($database,$sql);
-					$nRow=mysql_num_rows($result);
+        <?php
+				  $sql="SELECT cos_id , cos_name , price ,discount FROM course ORDER BY cos_id";
+					$result=mysqli_query($dbcon,$sql);
+					$nRow=mysqli_num_rows($result);
 					$tr=$nRow%$list_page;
-					if($rt!=0) { 
+					if($tr!=0) { 
 						$totalpage = floor($nRow/$list_page)+1; 
 					}else {
 						$totalpage = floor($nRow/$list_page)+1; 
 					}
 					$goto = ($page-1)*$list_page;
-					$sql=$sql . " limit $goto,$list_page";
-					$result=mysql_db_query($database,$sql);
-					while($row=mysql_fetch_array($result)){
-					$disc=$row[2]-$row[3];
-				  ?>
+					$sql=$sql . " LIMIT $goto,$list_page";
+					$result=mysqli_query($dbcon,$sql);
+					while($row=mysqli_fetch_array($result)){
+					$disc=$row['price']-$row['discount'];
+				?>
 				<thead>
 	                <tr>
-	                  <th bgcolor="#FFFFFF"><b><a href='course_detail.php?cos_id=<?php echo $row[0]?>'><?php echo $row[1] ?></a></b>
-	                    &nbsp;&nbsp;( <a href='course_price.php?cos_id=<?php echo $row[0] ?>'><?php echo $row[2] ?></a> บาท )
+	                  <th bgcolor="#FFFFFF"><b><a href='course_detail.php?cos_id=<?php echo $row['cos_id']?>'><?php echo $row[1] ?></a></b>
+	                    &nbsp;&nbsp;( <a href='course_price.php?cos_id=<?php echo $row['cos_id'] ?>'><?php echo $row[2] ?></a> บาท )
 						&nbsp; ลดเหลือ <font color="#FF0000"><b><?php echo $disc ?></b></font>
 	                  </th>
 	                  <th align="center" bgcolor="#FFFFFF">
 	                  	<table width="100%" border="0" cellspacing="2" cellpadding="2" class="table-hover table-condensed">
 	                  		<thead>
 			                    <tr>
-			                      <th align="center"><a href="coures_subject_add.php?cos_id=<?php echo $row[0] ?>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
-			                      <th align="center"><a href="course_frm.php?cos_id=<?php echo $row[0] ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></th>
-			                      <th align="center"><a href="javascript:DelCourse(<?php echo $row[0] ?>)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></th>
+			                      <th align="center"><a href="coures_subject_add.php?cos_id=<?php echo $row['cos_id'] ?>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
+			                      <th align="center"><a href="course_frm.php?cos_id=<?php echo $row['cos_id'] ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></th>
+			                      <th align="center"><a href="javascript:DelCourse(<?php echo $row['cos_id'] ?>)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></th>
 			                    </tr>
 			                </thead>
 	                    </table>
 	                  </th>
 	                 </tr>
 	            </thead>
-                <?php
-				  	$sql="select subject.sub_id , subject.sub_name , subject.time_sub from subject , course_item  ";
+        <?php
+				  $sql="select subject.sub_id , subject.sub_name , subject.time_sub from subject , course_item  ";
 					$sql=$sql . " where subject.sub_id = course_item.sub_id and course_item.cos_id = $row[0] ";
 					$sql=$sql . " order by course_item.autoid ";
-					$result_sub=mysql_db_query($database,$sql);
-					while($row_sub=mysql_fetch_array($result_sub)){
-				  ?>
+					$result_sub=mysqli_query($dbcon,$sql);
+					while($row_sub=mysqli_fetch_array($result_sub)){
+				?>
                 <tr>
                   <td bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;<?php echo $row_sub[1] ?>&nbsp;&nbsp;<br />
                     
@@ -187,5 +183,5 @@ function DelSec(cos_id , id){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>

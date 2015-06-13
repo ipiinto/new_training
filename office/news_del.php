@@ -2,8 +2,7 @@
   session_start();
 	
 	include('../config/config.php');
-	mysql_connect($host,$hostuser,$hostpass);
-	mysql_query("SET NAMES UTF8");
+	
 	
 	if($_SESSION["login"]==""){
 		echo "<script language=\"javascript\">window.location.href = '../index.php'</script>";
@@ -30,12 +29,12 @@ function submitform(){
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <? include '../office/header.php'?>
+        <?php include '../office/header.php'?>
       </tr>
     </table><a href="../index.php"></a></td>
   </tr>
   <tr>
-    <td height="46" valign="middle" background="../images/bg_menu.png"><? include('menu.php') ?></td>
+    <td height="46" valign="middle" background="../images/bg_menu.png"><?php include('menu.php') ?></td>
   </tr>
   <tr>
     <td height="400" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -61,12 +60,12 @@ function submitform(){
               <p>
                 <?php
           				$sql=$_POST["sql"];
-          				$result=mysql_db_query($database,$sql);
-          				while($row=mysql_fetch_array($result)){
+          				$result=mysqli_query($dbcon,$sql);
+          				while($row=mysqli_fetch_array($result)){
           					$ch=$_POST["ch$row[0]"];
           					if($ch==1){
           						$sql="delete from news where news_id=$row[0]";
-          						$result1=mysql_db_query($database,$sql);
+          						$result1=mysqli_query($dbcon,$sql);
           						echo $sql . "<br>";
           					}
           				}
@@ -91,5 +90,5 @@ function submitform(){
 </body>
 </html>
 <?php
-	mysql_close();
+	mysqli_close($dbcon);
 ?>
